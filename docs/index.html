@@ -298,15 +298,33 @@ $(document).ready(function () {
 </div>
 
 
-<p>Contents of this workshop:</p>
+<div id="contents" class="section level1">
+<h1>Contents</h1>
 <ul>
 <li><p><a href="part1.html">Part 1: Slurm fundamentals</a> (source code <a href="part1.Rmd" target="_blank">here</a>)</p></li>
 <li><p><a href="part2.html">Part 2: Simulating pi (again)</a> (source code <a href="part2.Rmd" target="_blank">here</a>)</p></li>
 </ul>
+</div>
+<div id="materials" class="section level1">
+<h1>Materials</h1>
 <p>All the contents of this repository can be downloaded from the following github repository</p>
 <p><a href="https://github.com/USCbiostats/slurmR-workshop" class="uri">https://github.com/USCbiostats/slurmR-workshop</a></p>
 <p>You can also download all the contents of this repository (including R and bash scripts) using git:</p>
 <pre class="bash"><code>git clone https://github.com/USCbiostats/slurmr-workshop.git</code></pre>
+</div>
+<div id="misc" class="section level1">
+<h1>Misc</h1>
+<p>All the examples here can be execued using GNU make. The command line entries used to run each one of the tasks follow (see the <a href="Makefile" target="_blank">Makefile</a>):</p>
+<pre><code>sbatch --partition=scavenge 01-sapply.slurm
+sbatch --partition=scavenge 02-mclapply.slurm
+sbatch --partition=scavenge 03-parsapply-slurmr.slurm
+sbatch --partition=scavenge 04-slurm_sapply.slurm
+Rscript -e &#39;slurmR::sourceSlurm(&quot;05-sapply.R&quot;, plan = &quot;submit&quot;, partition = &quot;scavange&quot;)&#39;</code></pre>
+</div>
+<div id="speaker" class="section level1">
+<h1>Speaker</h1>
+<p><a href="https://ggvy.cl"><strong>George G Vega Yon</strong>, <em>Research Programmer/Ph.D. Student BioStats</em></a></p>
+</div>
 
 
 

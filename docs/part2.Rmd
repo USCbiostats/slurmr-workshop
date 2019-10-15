@@ -34,6 +34,33 @@ $$
 \hat \pi = \hat p \times (2\times r)^2 / r^2 = 4 \hat p
 $$
 
+## Submitting jobs to Slurm
+
+The main way that we will be working is submitting jobs using the `sbatch` function.
+This function takes as a main argument a bash file with the program to execute.
+In the case of R, a regular bash file looks something like this:
+
+```{r echo=FALSE, comment=""}
+cat(readLines("01-sapply.slurm"), sep="\n")
+```
+
+This file has three components:
+
+- The Slurm flags `#SBATCH`.
+
+- Loading R `source ...`.
+
+- Executing the R script.
+
+To submit a job the to queue, we need to enter the following:
+
+```bash
+sbatch 01-sapply.slurm
+```
+
+The following examples have two files, a bash script and a R script to be called
+by Slurm.
+
 ## Case 1: Single job, single core job
 
 The most basic way is submitting a job using the [`sbatch`]() command. Im this
@@ -160,5 +187,6 @@ From the R console (is OK if you are in the Head node)
 slurmR::sourceSlurm("05-sapply.R")
 ```
 
-And voila!
+And voila! A temporary bash file will be generated and used submit the R script
+to the queue.
 

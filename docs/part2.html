@@ -380,6 +380,25 @@ div.tocify {
 \hat \pi = \hat p \times (2\times r)^2 / r^2 = 4 \hat p
 \]</span></p>
 </div>
+<div id="submitting-jobs-to-slurm" class="section level2">
+<h2>Submitting jobs to Slurm</h2>
+<p>The main way that we will be working is submitting jobs using the <code>sbatch</code> function. This function takes as a main argument a bash file with the program to execute. In the case of R, a regular bash file looks something like this:</p>
+<pre><code>#!/bin/sh
+#SBATCH --job-name=sapply
+#SBATCH --time=01:00:00
+
+source /usr/usc/R/default/setup.sh
+Rscript --vanilla 01-sapply.R</code></pre>
+<p>This file has three components:</p>
+<ul>
+<li><p>The Slurm flags <code>#SBATCH</code>.</p></li>
+<li><p>Loading R <code>source ...</code>.</p></li>
+<li><p>Executing the R script.</p></li>
+</ul>
+<p>To submit a job the to queue, we need to enter the following:</p>
+<pre class="bash"><code>sbatch 01-sapply.slurm</code></pre>
+<p>The following examples have two files, a bash script and a R script to be called by Slurm.</p>
+</div>
 <div id="case-1-single-job-single-core-job" class="section level2">
 <h2>Case 1: Single job, single core job</h2>
 <p>The most basic way is submitting a job using the <a href=""><code>sbatch</code></a> command. Im this case you need to have 2 files: (1) An R script, and (2) a bash script. e.g.</p>
@@ -562,7 +581,7 @@ ans &lt;- sapply(1:nsims, simpi)
 saveRDS(ans, &quot;05-sapply.rds&quot;)</code></pre>
 <p>From the R console (is OK if you are in the Head node)</p>
 <pre class="r"><code>slurmR::sourceSlurm(&quot;05-sapply.R&quot;)</code></pre>
-<p>And voila!</p>
+<p>And voila! A temporary bash file will be generated and used submit the R script to the queue.</p>
 </div>
 
 
