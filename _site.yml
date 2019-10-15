@@ -1,7 +1,7 @@
-name: slurmR-workshop
+name: slurmr-workshop
 include: ["part1.Rmd", "part2.Rmd", "*.R"]
 navbar:
-  title: R with USC's HPC and slurmR
+  title: HPC with Slurm, R and the slurmR package
   right:
     - text: "Home"
       href: index.html

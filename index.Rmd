@@ -1,4 +1,5 @@
 ---
+title: HPC with Slurm, R and the slurmR package
 output: html_document
 ---
 
@@ -12,3 +13,10 @@ All the contents of this repository can be downloaded from the following
 github repository
 
 https://github.com/USCbiostats/slurmR-workshop
+
+You can also download all the contents of this repository (including R and bash
+scripts) using git:
+
+```bash
+git clone https://github.com/USCbiostats/slurmr-workshop.git
+```

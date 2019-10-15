@@ -1,5 +1,5 @@
 ---
-title: 'Part 1: Slurm and R fundamentals'
+# title: 'Part 1: Slurm and R fundamentals'
 output:
     html_document:
         toc: true

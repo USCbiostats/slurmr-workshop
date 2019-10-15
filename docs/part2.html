@@ -12,7 +12,7 @@
 
 
 
-<title>Part 2: Simulating pi (once more)</title>
+<title>part2.utf8.md</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -338,7 +338,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R with USC's HPC and slurmR</a>
+      <a class="navbar-brand" href="index.html">HPC with Slurm, R and the slurmR package</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -363,11 +363,23 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Part 2: Simulating pi (once more)</h1>
 
 </div>
 
 
+<div id="simulating-pi" class="section level2">
+<h2>Simulating pi</h2>
+<p>This is the same old example that lots of people (including me) have been using to ilustrate parallel computing with R. The example is very simple, we want to approximate pi by doing some Monte Carlo simulations.</p>
+<p>We know that the area of a circle is <span class="math inline">\(A = \pi r^2\)</span>, which is equivalent to say <span class="math inline">\(\pi = A/r^2\)</span>, so, if we can approximate the Area of a circle, then we can approximate <span class="math inline">\(\pi\)</span>. How do we do this?</p>
+<p>Using montecarlo experiments, we have that the probability that a random point <span class="math inline">\(x\)</span> falls within the unit circle can be approximated using the following formula</p>
+<p><span class="math display">\[
+\hat p = \frac{1}{n}\sum_i \mathbf{1}(x \in \mbox{Circle})
+\]</span></p>
+<p>This approximation, <span class="math inline">\(\hat p\)</span>, multiplied by the area of the escribed square, which has an area equal to <span class="math inline">\((2\times r)^2\)</span>, thus, we can finally write</p>
+<p><span class="math display">\[
+\hat \pi = \hat p \times (2\times r)^2 / r^2 = 4 \hat p
+\]</span></p>
+</div>
 <div id="case-1-single-job-single-core-job" class="section level2">
 <h2>Case 1: Single job, single core job</h2>
 <p>The most basic way is submitting a job using the <a href=""><code>sbatch</code></a> command. Im this case you need to have 2 files: (1) An R script, and (2) a bash script. e.g.</p>
@@ -499,7 +511,13 @@ simpi &lt;- function(i, n.) {
 library(slurmR) # This also loads the parallel package
 
 # Approximation
-ans &lt;- Slurm_sapply(1:nsims, simpi, n. = n, njobs = njobs, plan = &quot;collect&quot;)
+ans &lt;- Slurm_sapply(
+  1:nsims, simpi,
+  n.       = n,
+  njobs    = njobs,
+  plan     = &quot;collect&quot;,
+  tmp_path = &quot;/staging/ggv&quot; # This is where all temp files will be exported
+  )
 
 saveRDS(ans, &quot;04-slurm_sapply.rds&quot;)</code></pre>
 <p>Bashfile (<a href="04-slurm_sapply.slurm" target="_blank">04-slurm_sapply.slurm</a>):</p>
@@ -509,6 +527,42 @@ saveRDS(ans, &quot;04-slurm_sapply.rds&quot;)</code></pre>
 
 source /usr/usc/R/default/setup.sh
 Rscript --vanilla 04-slurm_sapply.R</code></pre>
+<p>One of the main benefits of using this approach instead of the the <code>makeSlurmCluster</code> function (and thus, working with a SOCK cluster) are:</p>
+<ul>
+<li><p>The number of jobs is not limited here (only by the admin, but not by R).</p></li>
+<li><p>If a job fails, then we can re-run it using <code>sbatch</code> once again (see example <a href="https://github.com/USCbiostats/slurmR#example-2-job-resubmission" target="_blank">here</a>).</p></li>
+<li><p>You can check the individual logs of each process using the function <code>Slurm_lob()</code>.</p></li>
+<li><p>You can submit the job and quick the R session without waiting for it to finalize. You can always read back the job using the function <code>read_slurm_job([path-to-the-temp])</code></p></li>
+</ul>
+</div>
+<div id="case-5-skipping-the-.slurm-file" class="section level2">
+<h2>Case 5: Skipping the .slurm file</h2>
+<p>The <code>slurmR</code> package has a function named <code>sourceSlurm</code> that can be used to avoid creating the <code>.slurm</code> file. The user can add the SBATCH options to the top of the R script (including the <code>#!/bin/sh</code> line) and submit the job from within R as follows:</p>
+<p>R script (<a href="05-sapply.R" target="_blank">05-sapply.R</a>):</p>
+<pre><code>#!/bin/sh
+#SBATCH --job-name=sapply
+#SBATCH --time=01:00:00
+
+# Model parameters
+nsims &lt;- 1e3
+n     &lt;- 1e4
+
+# Function to simulate pi
+simpi &lt;- function(i) {
+  
+  p &lt;- matrix(runif(n*2, -1, 1), ncol = 2)
+  mean(sqrt(rowSums(p^2)) &lt;= 1) * 4
+  
+}
+
+# Approximation
+set.seed(12322)
+ans &lt;- sapply(1:nsims, simpi)
+
+saveRDS(ans, &quot;01-sapply.rds&quot;)</code></pre>
+<p>From the R console (is OK if you are in the Head node)</p>
+<pre class="r"><code>slurmR::sourceSlurm(&quot;05-sapply.R&quot;)</code></pre>
+<p>And voila!</p>
 </div>
 
 

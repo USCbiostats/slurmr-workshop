@@ -16,7 +16,13 @@ simpi <- function(i, n.) {
 library(slurmR) # This also loads the parallel package
 
 # Approximation
-ans <- Slurm_sapply(1:nsims, simpi, n. = n, njobs = njobs, plan = "collect")
+ans <- Slurm_sapply(
+  1:nsims, simpi,
+  n.       = n,
+  njobs    = njobs,
+  plan     = "collect",
+  tmp_path = "/staging/ggv" # This is where all temp files will be exported
+  )
 
 saveRDS(ans, "04-slurm_sapply.rds")
 
