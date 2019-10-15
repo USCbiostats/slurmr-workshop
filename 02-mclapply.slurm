@@ -1,5 +1,5 @@
 #!/bin/sh
-#SBATCH --job-name=sapply
+#SBATCH --job-name=mclapply
 #SBATCH --time=01:00:00
 #SBATCH --cpus-per-task=4
 

@@ -1,5 +1,5 @@
 #!/bin/sh
-#SBATCH --job-name=sapply
+#SBATCH --job-name=slurm_sapply
 #SBATCH --time=01:00:00
 
 source /usr/usc/R/default/setup.sh
