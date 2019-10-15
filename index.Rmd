@@ -1,0 +1,14 @@
+---
+output: html_document
+---
+
+Contents of this workshop:
+
+- [Part 1: Slurm fundamentals](part1.html) (source code [here](part1.Rmd){target="_blank"})
+
+- [Part 2: Simulating pi (again)](part2.html) (source code [here](part2.Rmd){target="_blank"})
+
+All the contents of this repository can be downloaded from the following 
+github repository
+
+https://github.com/USCbiostats/slurmR-workshop

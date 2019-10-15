@@ -1,0 +1,12 @@
+name: slurmR-workshop
+include: ["part1.Rmd", "part2.Rmd", "*.R"]
+navbar:
+  title: R with USC's HPC and slurmR
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "Part 1: Slurm fundamentals"
+      href: part1.html
+    - text: "Part 2: Simulating pi (again)"
+      href: part2.html
+output_dir: docs

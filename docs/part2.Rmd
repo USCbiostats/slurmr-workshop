@@ -1,0 +1,104 @@
+---
+title: 'Part 2: Simulating pi (once more)'
+output:
+    html_document:
+        toc: true
+        toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Case 1: Single job, single core job
+
+The most basic way is submitting a job using the [`sbatch`]() command. Im this
+case you need to have 2 files: (1) An R script, and (2) a bash script. e.g.
+
+The contents of the R script ([01-sapply.R](01-sapply.R){target="_blank"}) are:
+
+```{r, results='markup', warning=FALSE, comment="", echo=FALSE}
+cat(readLines("01-sapply.R"), sep="\n")
+```
+
+The contents of the bashfile ([01-sapply.slurm](01-sapply.slurm){target="_blank"}) are:
+
+```{r, results='markup', warning=FALSE, comment="", echo=FALSE}
+cat(readLines("01-sapply.slurm"), sep="\n")
+```
+    
+## Case 2: Single job, multicore job
+
+Now, imagine that we would like to use more than one processor for this job,
+using something like the `parallel::mclapply` function from the parallel package.
+Then, besides of adapting the code, we need to tell Slurm that we are using
+more than one core per-task, as the following example:
+
+R script ([02-mclapply.R](02-mclapply.R){target="_blank"}):
+
+```{r, warning=FALSE, comment="", echo=FALSE}
+cat(readLines("02-mclapply.R"), sep="\n")
+```
+
+Bashfile ([02-mclapply.slurm](02-mclapply.slurm){target="_blank"}):
+
+```{r, warning=FALSE, comment="", echo=FALSE}
+cat(readLines("02-mclapply.slurm"), sep="\n")
+```
+
+
+## Case 3: Single job, multinode job
+
+In this case, there is no simple way to submit a multinodal job to Slurm... unless
+you use the [**slurmR**](https://github.com/USCbiostats/slurmR) package (see
+installation instructions [here](https://github.com/USCbiostats/slurmR#installation))
+
+Once you have the slurmR package in your system, you can procede as follow
+
+R script ([03-parsapply-slurmr.R](03-parsapply-slurmr.R){target="_blank"}):
+
+```{r, warning=FALSE, comment="", echo=FALSE}
+cat(readLines("03-parsapply-slurmr.R"), sep="\n")
+```
+
+Bashfile ([03-parsapply-slurmr.slurm](03-parsapply-slurmr.slurm){target="_blank"}):
+
+```{r, warning=FALSE, comment="", echo=FALSE}
+cat(readLines("03-parsapply-slurmr.slurm"), sep="\n")
+```
+
+
+## Case 4: Multi job, single/multi-core
+
+Another way to submit jobs is using job arrays. A job array is essentially a job
+that is repreated `njobs` times with the same configuration. The main difference
+between replicates is what you do with the `SLURM_ARRAY_TASK_ID` environment
+variable. This variable is defined within each replicate and can be used to make
+the "subjob" depending on that.
+
+Here is a quick example using R
+
+```r
+ID <- Sys.getenv("SLURM_ARRAY_TASK_ID")
+if (ID == 1) {
+  ...[do this]...
+} else if (ID == 2) {
+  ...[do that]...
+}
+```
+
+The `slurmR` R package makes submitting job arrays easy. Again, with the simulation
+of pi, we can do it in the following way:
+
+R script ([04-slurm_sapply.R](04-slurm_sapply.R){target="_blank"}):
+
+```{r, warning=FALSE, comment="", echo=FALSE}
+cat(readLines("04-slurm_sapply.R"), sep="\n")
+```
+
+Bashfile ([04-slurm_sapply.slurm](04-slurm_sapply.slurm){target="_blank"}):
+
+```{r, warning=FALSE, comment="", echo=FALSE}
+cat(readLines("04-slurm_sapply.slurm"), sep="\n")
+```
+
