@@ -398,9 +398,8 @@ Rscript --vanilla 01-sapply.R</code></pre>
 <p>To submit a job the to queue, we need to enter the following:</p>
 <pre class="bash"><code>sbatch 01-sapply.slurm</code></pre>
 <p>The following examples have two files, a bash script and a R script to be called by Slurm.</p>
-</div>
-<div id="case-1-single-job-single-core-job" class="section level2">
-<h2>Case 1: Single job, single core job</h2>
+<div id="case-1-single-job-single-core-job" class="section level3">
+<h3>Case 1: Single job, single core job</h3>
 <p>The most basic way is submitting a job using the <a href=""><code>sbatch</code></a> command. Im this case you need to have 2 files: (1) An R script, and (2) a bash script. e.g.</p>
 <p>The contents of the R script (<a href="01-sapply.R" target="_blank">01-sapply.R</a>) are:</p>
 <pre><code># Model parameters
@@ -428,8 +427,8 @@ saveRDS(ans, &quot;01-sapply.rds&quot;)</code></pre>
 source /usr/usc/R/default/setup.sh
 Rscript --vanilla 01-sapply.R</code></pre>
 </div>
-<div id="case-2-single-job-multicore-job" class="section level2">
-<h2>Case 2: Single job, multicore job</h2>
+<div id="case-2-single-job-multicore-job" class="section level3">
+<h3>Case 2: Single job, multicore job</h3>
 <p>Now, imagine that we would like to use more than one processor for this job, using something like the <code>parallel::mclapply</code> function from the parallel package. Then, besides of adapting the code, we need to tell Slurm that we are using more than one core per-task, as the following example:</p>
 <p>R script (<a href="02-mclapply.R" target="_blank">02-mclapply.R</a>):</p>
 <pre><code># Model parameters
@@ -460,8 +459,11 @@ saveRDS(ans, &quot;02-mclpply.rds&quot;)</code></pre>
 source /usr/usc/R/default/setup.sh
 Rscript --vanilla 02-mclapply.R</code></pre>
 </div>
-<div id="case-3-single-job-multinode-job" class="section level2">
-<h2>Case 3: Single job, multinode job</h2>
+</div>
+<div id="jobs-with-the-slurmr-package" class="section level2">
+<h2>Jobs with the slurmR package</h2>
+<div id="case-3-single-job-multinode-job" class="section level3">
+<h3>Case 3: Single job, multinode job</h3>
 <p>In this case, there is no simple way to submit a multinodal job to Slurm… unless you use the <a href="https://github.com/USCbiostats/slurmR"><strong>slurmR</strong></a> package (see installation instructions <a href="https://github.com/USCbiostats/slurmR#installation">here</a>)</p>
 <p>Once you have the slurmR package in your system, you can procede as follow</p>
 <p>R script (<a href="03-parsapply-slurmr.R" target="_blank">03-parsapply-slurmr.R</a>):</p>
@@ -500,9 +502,9 @@ saveRDS(ans, &quot;03-parsapply-slurmr.rds&quot;)</code></pre>
 source /usr/usc/R/default/setup.sh
 Rscript --vanilla 03-parsapply-slurmr.R</code></pre>
 </div>
-<div id="case-4-multi-job-singlemulti-core" class="section level2">
-<h2>Case 4: Multi job, single/multi-core</h2>
-<p>Another way to submit jobs is using job arrays. A job array is essentially a job that is repreated <code>njobs</code> times with the same configuration. The main difference between replicates is what you do with the <code>SLURM_ARRAY_TASK_ID</code> environment variable. This variable is defined within each replicate and can be used to make the “subjob” depending on that.</p>
+<div id="case-4-multi-job-singlemulti-core" class="section level3">
+<h3>Case 4: Multi job, single/multi-core</h3>
+<p>Another way to submit jobs is using <a href="https://slurm.schedmd.com/job_array.html"><strong>job arrays</strong></a>. A job array is essentially a job that is repreated <code>njobs</code> times with the same configuration. The main difference between replicates is what you do with the <code>SLURM_ARRAY_TASK_ID</code> environment variable. This variable is defined within each replicate and can be used to make the “subjob” depending on that.</p>
 <p>Here is a quick example using R</p>
 <pre class="r"><code>ID &lt;- Sys.getenv(&quot;SLURM_ARRAY_TASK_ID&quot;)
 if (ID == 1) {
@@ -554,8 +556,8 @@ Rscript --vanilla 04-slurm_sapply.R</code></pre>
 <li><p>You can submit the job and quick the R session without waiting for it to finalize. You can always read back the job using the function <code>read_slurm_job([path-to-the-temp])</code></p></li>
 </ul>
 </div>
-<div id="case-5-skipping-the-.slurm-file" class="section level2">
-<h2>Case 5: Skipping the .slurm file</h2>
+<div id="case-5-skipping-the-.slurm-file" class="section level3">
+<h3>Case 5: Skipping the .slurm file</h3>
 <p>The <code>slurmR</code> package has a function named <code>sourceSlurm</code> that can be used to avoid creating the <code>.slurm</code> file. The user can add the SBATCH options to the top of the R script (including the <code>#!/bin/sh</code> line) and submit the job from within R as follows:</p>
 <p>R script (<a href="05-sapply.R" target="_blank">05-sapply.R</a>):</p>
 <pre><code>#!/bin/sh
@@ -582,6 +584,7 @@ saveRDS(ans, &quot;05-sapply.rds&quot;)</code></pre>
 <p>From the R console (is OK if you are in the Head node)</p>
 <pre class="r"><code>slurmR::sourceSlurm(&quot;05-sapply.R&quot;)</code></pre>
 <p>And voila! A temporary bash file will be generated and used submit the R script to the queue.</p>
+</div>
 </div>
 
 

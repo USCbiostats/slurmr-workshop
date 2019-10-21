@@ -412,16 +412,32 @@ ln -s /path/to/a/project/with/lots/of/space/R R</code></pre>
 <p>More information about the partitions <a href="https://hpcc.usc.edu/support/infrastructure/node-allocation/" target="_blank">here</a></p></li>
 </ul>
 </div>
-<div id="good-practices" class="section level2">
-<h2>Good practices</h2>
+<div id="good-practices-recomendations" class="section level2">
+<h2>Good practices (recomendations)</h2>
 <p>This is what you should use as a minimum:</p>
 <pre><code>#SBATCH --output=simulation.out
 #SBATCH --job-name=simulation
-#SBATCH --time=04:00:00</code></pre>
+#SBATCH --time=04:00:00
+#SBATCH --mail-user=[you]@usc.edu
+#SBATCH --mail-type=END,FAIL</code></pre>
 <ul>
 <li><p><code>output</code> is the name of the logfile to which Slurm will write.</p></li>
 <li><p><code>job-name</code> is that, the name of the job. You can use this to either kill or at least be able to identify what is what you are running when you use <code>myqueue</code></p></li>
 <li><p><code>time</code> Try always to set a time estimate (plus a little more) for your job.</p></li>
+<li><p><code>mail-user</code>, <code>mail-type</code> so Slurm notifies you when things happen</p></li>
+</ul>
+<p>Also, in your R code</p>
+<ul>
+<li>Any I/O should be done to either Scratch (<code>Sys.getenv(&quot;SCRATCHDIR&quot;)</code>), Tmp <code>Sys.getenv(&quot;TMPDIR&quot;)</code>, or Staging (<code>/staging/[you, perhaps]/</code>).</li>
+</ul>
+</div>
+<div id="nonos-when-using-r" class="section level2">
+<h2>NoNos when using R</h2>
+<ul>
+<li><p>Do computation on the head node (compile stuff is OK)</p></li>
+<li><p>Request a number of nodes (unless you know what you are doing)</p></li>
+<li><p>Use your home directory for I/O</p></li>
+<li><p>Save important information in Staging/Scratch</p></li>
 </ul>
 </div>
 

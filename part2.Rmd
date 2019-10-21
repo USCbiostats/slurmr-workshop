@@ -61,7 +61,8 @@ sbatch 01-sapply.slurm
 The following examples have two files, a bash script and a R script to be called
 by Slurm.
 
-## Case 1: Single job, single core job
+
+### Case 1: Single job, single core job
 
 The most basic way is submitting a job using the [`sbatch`]() command. Im this
 case you need to have 2 files: (1) An R script, and (2) a bash script. e.g.
@@ -78,7 +79,7 @@ The contents of the bashfile ([01-sapply.slurm](01-sapply.slurm){target="_blank"
 cat(readLines("01-sapply.slurm"), sep="\n")
 ```
     
-## Case 2: Single job, multicore job
+### Case 2: Single job, multicore job
 
 Now, imagine that we would like to use more than one processor for this job,
 using something like the `parallel::mclapply` function from the parallel package.
@@ -97,8 +98,9 @@ Bashfile ([02-mclapply.slurm](02-mclapply.slurm){target="_blank"}):
 cat(readLines("02-mclapply.slurm"), sep="\n")
 ```
 
+## Jobs with the slurmR package 
 
-## Case 3: Single job, multinode job
+### Case 3: Single job, multinode job
 
 In this case, there is no simple way to submit a multinodal job to Slurm... unless
 you use the [**slurmR**](https://github.com/USCbiostats/slurmR) package (see
@@ -119,9 +121,9 @@ cat(readLines("03-parsapply-slurmr.slurm"), sep="\n")
 ```
 
 
-## Case 4: Multi job, single/multi-core
+### Case 4: Multi job, single/multi-core
 
-Another way to submit jobs is using job arrays. A job array is essentially a job
+Another way to submit jobs is using [**job arrays**](https://slurm.schedmd.com/job_array.html). A job array is essentially a job
 that is repreated `njobs` times with the same configuration. The main difference
 between replicates is what you do with the `SLURM_ARRAY_TASK_ID` environment
 variable. This variable is defined within each replicate and can be used to make
@@ -168,7 +170,7 @@ function (and thus, working with a SOCK cluster) are:
    You can always read back the job using the function `read_slurm_job([path-to-the-temp])`
    
 
-## Case 5: Skipping the .slurm file
+### Case 5: Skipping the .slurm file
 
 The `slurmR` package has a function named `sourceSlurm` that can be used to avoid
 creating the `.slurm` file. The user can add the SBATCH options to the top of 

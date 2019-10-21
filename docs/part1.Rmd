@@ -107,7 +107,7 @@ Here some options that you need to be aware of:
   More information about the partitions [here](https://hpcc.usc.edu/support/infrastructure/node-allocation/){target="_blank"}
 
 
-## Good practices
+## Good practices (recomendations)
 
 This is what you should use as a minimum:
 
@@ -115,6 +115,8 @@ This is what you should use as a minimum:
 #SBATCH --output=simulation.out
 #SBATCH --job-name=simulation
 #SBATCH --time=04:00:00
+#SBATCH --mail-user=[you]@usc.edu
+#SBATCH --mail-type=END,FAIL
 ```
 
 -  `output` is the name of the logfile to which Slurm will write.
@@ -123,4 +125,24 @@ This is what you should use as a minimum:
    at least be able to identify what is what you are running when you use `myqueue`
    
 -  `time` Try always to set a time estimate (plus a little more) for your job.
+
+-  `mail-user`, `mail-type` so Slurm notifies you when things happen
+
+Also, in your R code
+
+-  Any I/O should be done to either Scratch (`Sys.getenv("SCRATCHDIR")`), Tmp
+   `Sys.getenv("TMPDIR")`, or Staging (`/staging/[you, perhaps]/`).
+   
+
+
+## NoNos when using R
+
+-  Do computation on the head node (compile stuff is OK)
+
+-  Request a number of nodes (unless you know what you are doing)
+
+-  Use your home directory for I/O
+
+-  Save important information in Staging/Scratch
+
 
