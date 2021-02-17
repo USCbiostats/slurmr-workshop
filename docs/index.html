@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -14,6 +13,7 @@
 
 <title>HPC with Slurm, R and the slurmR package</title>
 
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -23,6 +23,15 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -72,6 +81,7 @@ h6 {
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -84,7 +94,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -233,6 +242,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -284,6 +294,9 @@ $(document).ready(function () {
 <li>
   <a href="part2.html">Part 2: Simulating pi (again)</a>
 </li>
+<li>
+  <a href="part3.html">Misc</a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -303,7 +316,9 @@ $(document).ready(function () {
 <ul>
 <li><p><a href="part1.html">Part 1: Slurm fundamentals</a> (source code <a href="part1.Rmd" target="_blank">here</a>)</p></li>
 <li><p><a href="part2.html">Part 2: Simulating pi (again)</a> (source code <a href="part2.Rmd" target="_blank">here</a>)</p></li>
+<li><p><a href="part3.html">Misc</a> (source code <a href="part3.Rmd" target="_blank">here</a>)</p></li>
 </ul>
+<p>Previous versions of this workshop: <a href="https://github.com/USCbiostats/slurmr-workshop/tree/oct2019">2019</a>.</p>
 </div>
 <div id="materials" class="section level1">
 <h1>Materials</h1>
@@ -315,15 +330,16 @@ $(document).ready(function () {
 <div id="misc" class="section level1">
 <h1>Misc</h1>
 <p>All the examples here can be execued using GNU make. The command line entries used to run each one of the tasks follow (see the <a href="Makefile" target="_blank">Makefile</a>):</p>
-<pre><code>sbatch --partition=scavenge 01-sapply.slurm
-sbatch --partition=scavenge 02-mclapply.slurm
-sbatch --partition=scavenge 03-parsapply-slurmr.slurm
-sbatch --partition=scavenge 04-slurm_sapply.slurm
-Rscript -e &#39;slurmR::sourceSlurm(&quot;05-sapply.R&quot;, plan = &quot;submit&quot;, partition = &quot;scavange&quot;)&#39;</code></pre>
+<pre><code>module load usc r
+sbatch --partition=debug 01-sapply.slurm
+sbatch --partition=debug 02-mclapply.slurm
+sbatch --partition=debug 03-parsapply-slurmr.slurm
+sbatch --partition=debug 04-slurm_sapply.slurm
+Rscript -e &#39;slurmR::sourceSlurm(&quot;05-sapply.R&quot;, plan = &quot;submit&quot;, partition = &quot;debug&quot;)&#39;</code></pre>
 </div>
 <div id="speaker" class="section level1">
 <h1>Speaker</h1>
-<p><a href="https://ggvy.cl"><strong>George G Vega Yon</strong>, <em>Research Programmer/Ph.D. Student BioStats</em></a></p>
+<p><a href="https://ggvy.cl"><strong>George G Vega Yon, Ph.D.</strong>, <em>Biostats Research Programmer</em></a></p>
 </div>
 
 
@@ -335,7 +351,7 @@ Rscript -e &#39;slurmR::sourceSlurm(&quot;05-sapply.R&quot;, plan = &quot;submit
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

@@ -11,7 +11,7 @@
 
 
 
-<title>part1.utf8</title>
+<title>part3.utf8</title>
 
 <script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -386,53 +386,64 @@ div.tocify {
 </div>
 
 
-<div id="beginning-with-usc-hpc-cluster" class="section level1">
-<h1>Beginning with USC HPC cluster</h1>
-<div id="overview-of-hpc-at-usc" class="section level2">
-<h2>Overview of HPC at USC</h2>
-<figure>
-<p><img src="figs/CARC-cyberinfrastructure.png" alt="Cyberinfrastructure overview" style="width:80%;"/></p>
-<figcaption>
-<p>Cyberinfrastructure overview (source: <a href="https://carc.usc.edu/user-information/system-information" class="uri">https://carc.usc.edu/user-information/system-information</a>)</p>
-</figcaption>
-</figure>
+<div id="general-resources" class="section level2">
+<h2>General resources</h2>
+<p>The Center for Advanced Research Computing (formerly HPCC) has tons of resources online. Here are a couple of useful links:</p>
+<ul>
+<li><p><strong>Center for Advanced Research Computing Website</strong> <a href="https://carc.usc.edu" class="uri">https://carc.usc.edu</a></p></li>
+<li><p><strong>User forum (very useful!)</strong> <a href="https://hpc-discourse.usc.edu/categories" class="uri">https://hpc-discourse.usc.edu/categories</a></p></li>
+<li><p><strong>Monitor your account</strong> <a href="https://hpcaccount.usc.edu/" class="uri">https://hpcaccount.usc.edu/</a></p></li>
+<li><p><strong>Slurm Jobs Templates</strong> <a href="https://carc.usc.edu/user-information/user-guides/high-performance-computing/slurm-templates" class="uri">https://carc.usc.edu/user-information/user-guides/high-performance-computing/slurm-templates</a></p></li>
+<li><p><strong>Using R</strong> <a href="https://carc.usc.edu/user-information/user-guides/software-and-programming/r" class="uri">https://carc.usc.edu/user-information/user-guides/software-and-programming/r</a></p></li>
+</ul>
 </div>
-<div id="loging-in" class="section level2">
-<h2>Loging in</h2>
-<p>Log-in using ssh. In the case of Windows users, download the <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/">Putty</a> client. You have two options, the <a href="https://carc.usc.edu/user-information/user-guides/high-performance-computing/getting-started-discovery">discovery</a> or <a href="https://carc.usc.edu/user-information/user-guides/high-performance-computing/getting-started-endeavour">endeavour</a> clusters.</p>
-<p>To login, you will need to use your USC Net ID. If your USC email is <code>flasname@usc.edu</code>, your USC Net ID is <code>flastname</code>. Then:</p>
-<pre class="bash"><code>ssh flastname@discovery.usc.edu</code></pre>
-<p>if you want to use the discovery cluster (available to all USC members), or</p>
-<pre class="bash"><code>ssh flastname@endeavour.usc.edu</code></pre>
-<p>if you want to use the endeavour cluster (using private condos).</p>
+<div id="the-slurm-options-they-forgot-to-tell-you-about" class="section level2">
+<h2>The Slurm options they forgot to tell you about…</h2>
+<p>First of all, you have to be aware that the only thing Slurm does is allocate resources. If your application uses parallel computing or not, that’s another story.</p>
+<p>Here some options that you need to be aware of:</p>
+<ul>
+<li><p><code>ntasks</code> (default 1) This tells Slurm how many processes you will have running. Notice that processes need not to be in the same node (so Slurm may reserve space in multiple nodes)</p></li>
+<li><p><code>cpus-per-task</code> (defatult 1) This is how many CPUs each task will be using. This is what you need to use if you are using OpenMP (or a package that uses that), or anything you need to keep within the same node.</p></li>
+<li><p><code>nodes</code> the number of nodes you want to use in your job. This is useful mostly if you care about the maximum (I would say) number of nodes you want your job to work. So, for example, if you want to use 8 cores for a single task and force it to be in the same node, you would add the option <code>--nodes=1/1</code>.</p></li>
+<li><p><code>mem-per-cpu</code> (default 1GB) This is the MINIMUM amount of memory you want Slurm to allocate for the task. Not a hard barrier, so your process can go above that.</p></li>
+<li><p><code>time</code> (default 30min) This is a hard limit as well, so if you job takes more than the specified time, Slurm will kill it.</p></li>
+<li><p><code>partition</code> (default "“) and <code>account</code> (default”") these two options go along together, this tells Slurm what resources to use. Besides of the private resources we have the following:</p>
+<ul>
+<li><p><strong>quick partition</strong>: Any job that is small enough (in terms of time and memory) will go this way. This is usually the default if you don’t specify any memory or time options.</p></li>
+<li><p><strong>main partition</strong>: Jobs that require more resources will go in this line.</p></li>
+<li><p><strong>scavenge partition</strong>: If you need a massive number resources, and have a job that shouldn’t, in principle, take too long to finalize (less than a couple of hours), and <strong>you are OK with someone killing it</strong>, then this queue is for you. The Scavenge partition uses all the idle resources of the private partitions, so if any of the owners requests the resources, Slurm will cancel your job, i.e. you have no priority (see <a href="https://hpcc.usc.edu/support/documentation/scavenge/" target="_blank">more</a>).</p></li>
+<li><p><strong>largemem partition</strong>: If you need lots of memory, we have 4 1TB nodes for that.</p></li>
+</ul>
+<p>More information about the partitions <a href="https://hpcc.usc.edu/support/infrastructure/node-allocation/" target="_blank">here</a></p></li>
+</ul>
 </div>
-<div id="data-management" class="section level2">
-<h2>Data management</h2>
-<p>IMHO, these are the most important things to know about data management at USC’s HPC:</p>
-<ol style="list-style-type: decimal">
-<li><p>Do your data transfer using the transfer nodes (it is faster).</p></li>
-<li><p>Never use your home directory as a storage space (use your project’s allotted space instead).</p></li>
-<li><p>Use the scratch filesystem for temp data only, i.e., never save important files in scratch.</p></li>
-<li><p>Finally, besides of <strong>Secure copy protocol (scp)</strong>, if you are like me, try setting up a GUI client for moving your data (see <a href="https://carc.usc.edu/user-information/user-guides/data-management/transferring-files-gui">this</a>).</p></li>
-</ol>
+<div id="good-practices-recomendations" class="section level2">
+<h2>Good practices (recomendations)</h2>
+<p>This is what you should use as a minimum:</p>
+<pre><code>#SBATCH --output=simulation.out
+#SBATCH --job-name=simulation
+#SBATCH --time=04:00:00
+#SBATCH --mail-user=[you]@usc.edu
+#SBATCH --mail-type=END,FAIL</code></pre>
+<ul>
+<li><p><code>output</code> is the name of the logfile to which Slurm will write.</p></li>
+<li><p><code>job-name</code> is that, the name of the job. You can use this to either kill or at least be able to identify what is what you are running when you use <code>myqueue</code></p></li>
+<li><p><code>time</code> Try always to set a time estimate (plus a little more) for your job.</p></li>
+<li><p><code>mail-user</code>, <code>mail-type</code> so Slurm notifies you when things happen</p></li>
+</ul>
+<p>Also, in your R code</p>
+<ul>
+<li>Any I/O should be done to either Scratch (<code>Sys.getenv("SCRATCHDIR")</code>), Tmp <code>Sys.getenv("TMPDIR")</code>, or Staging (<code>/staging/[you, perhaps]/</code>).</li>
+</ul>
 </div>
-<div id="using-r-on-the-hpc" class="section level2">
-<h2>Using R on the HPC</h2>
-<ol style="list-style-type: decimal">
-<li><p>The HPC has several pre-installed pieces of software. R is one of those.</p></li>
-<li><p>It has multiple versions of R installed. Use your favorite one by running</p>
-<pre class="bash"><code>module load usc r/[version number]</code></pre>
-<p>Where <code>[version number]</code> can be 3.5.6 and up to 4.0.3 (the latest update). The <code>usc</code> module automatically loads gcc/8.3.0, openblas/0.3.8, openmpi/4.0.2, and pmix/3.1.3.</p></li>
-<li><p>It is never a good idea to use your home directory to install R packages, that’s why you should try using a <a href="">symbolic link instead</a>, like this</p>
-<pre class="bash"><code>cd ~
-mkdir -p /path/to/a/project/with/lots/of/space/R
-ln -s /path/to/a/project/with/lots/of/space/R R</code></pre>
-<p>This way, whenever you install your R packages, R will default to that location</p></li>
-<li><p>You can run interactive sessions on HPC, but this recommended to be done using the <code>salloc</code> function in Slurm, in other words, NEVER EVER USE R (OR ANY SOFTWARE) TO DO DATA ANALYSIS IN THE HEAD NODES! The options passed to salloc are the same options that can be passed to <code>sbatch</code> (see the next section.) For example, if need to do some analyses in the <code>thomas</code> partition (which is private and I have access to), I would type something like</p>
-<pre class="bash"><code>salloc --account=lc_pdt --partition=thomas --time=02:00:00 --mem-per-cpu=2G</code></pre>
-<p>This would put me in a single node allocating 2 gigs of memory for a maximum of 2 hours.</p></li>
-</ol>
-</div>
+<div id="nonos-when-using-r" class="section level2">
+<h2>NoNos when using R</h2>
+<ul>
+<li><p>Do computation on the head node (compile stuff is OK)</p></li>
+<li><p>Request a number of nodes (unless you know what you are doing)</p></li>
+<li><p>Use your home directory for I/O</p></li>
+<li><p>Save important information in Staging/Scratch</p></li>
+</ul>
 </div>
 
 

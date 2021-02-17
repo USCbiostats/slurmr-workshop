@@ -9,6 +9,10 @@ output: html_document
 
 - [Part 2: Simulating pi (again)](part2.html) (source code [here](part2.Rmd){target="_blank"})
 
+- [Misc](part3.html) (source code [here](part3.Rmd){target="_blank"})
+
+Previous versions of this workshop: [2019](https://github.com/USCbiostats/slurmr-workshop/tree/oct2019).
+
 # Materials
 
 All the contents of this repository can be downloaded from the following 
@@ -38,4 +42,4 @@ cat(make, sep="\n")
 
 # Speaker
 
-[**George G Vega Yon**, *Research Programmer/Ph.D. Student BioStats*](https://ggvy.cl)
+[**George G Vega Yon, Ph.D.**, *Biostats Research Programmer*](https://ggvy.cl)
