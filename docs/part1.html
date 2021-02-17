@@ -386,10 +386,8 @@ div.tocify {
 </div>
 
 
-<div id="beginning-with-usc-hpc-cluster" class="section level1">
-<h1>Beginning with USC HPC cluster</h1>
-<div id="overview-of-hpc-at-usc" class="section level2">
-<h2>Overview of HPC at USC</h2>
+<div id="overview-of-hpc-at-usc" class="section level1">
+<h1>Overview of HPC at USC</h1>
 <figure>
 <p><img src="figs/CARC-cyberinfrastructure.png" alt="Cyberinfrastructure overview" style="width:80%;"/></p>
 <figcaption>
@@ -397,33 +395,52 @@ div.tocify {
 </figcaption>
 </figure>
 </div>
-<div id="loging-in" class="section level2">
-<h2>Loging in</h2>
-<p>Log-in using ssh. In the case of Windows users, download the <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/">Putty</a> client. You have two options, the <a href="https://carc.usc.edu/user-information/user-guides/high-performance-computing/getting-started-discovery">discovery</a> or <a href="https://carc.usc.edu/user-information/user-guides/high-performance-computing/getting-started-endeavour">endeavour</a> clusters.</p>
-<p>To login, you will need to use your USC Net ID. If your USC email is <code>flasname@usc.edu</code>, your USC Net ID is <code>flastname</code>. Then:</p>
+<div id="hello-world" class="section level1">
+<h1>Hello world</h1>
+<p>For a quick-n-dirty intro to Slurm, we will start with a simple “Hello world” using Slurm + R. For this, we need to go through the following steps:</p>
+<ol style="list-style-type: decimal">
+<li><p>Copy a Slurm script to HPC,</p></li>
+<li><p>Login to HPC, and</p></li>
+<li><p>Submit the job using <code>sbatch</code>.</p></li>
+</ol>
+<div id="step-1-copy-the-slurm-script-to-hpc" class="section level2">
+<h2>Step 1: Copy the Slurm script to HPC</h2>
+<p>We need to copy the following Slurm script to HPC:</p>
+<pre><code>#!/bin/sh
+#SBATCH --output=00-hello-world.out
+module load usc r
+Rscript -e &quot;paste(&#39;Hello from node&#39;, Sys.getenv(&#39;SLURMD_NODENAME&#39;))&quot;</code></pre>
+<p>Which has four lines:</p>
+<ol style="list-style-type: decimal">
+<li><p><code>#!/bin/sh</code> the <strong>shebang</strong> (<a href="https://stackoverflow.com/questions/7366775/what-does-the-line-bin-sh-mean-in-a-unix-shell-script"><strong>shewhat?</strong></a>)</p></li>
+<li><p><code>#SBATCH --output=00-hello-world.out</code> an option to be passed to <code>sbatch</code>, in this case, the name of the output file to which <a href="https://en.wikipedia.org/wiki/Standard_streams"><strong>stdout and stderr</strong></a> will go.</p></li>
+<li><p><code>module load usc r</code> uses <a href="https://lmod.readthedocs.io/en/latest/"><strong>Lmod</strong></a> to load the <code>usc</code> (required) and <code>R</code> modules.</p></li>
+<li><p><code>Rscript ...</code> a call to R to evaluate the expression <code>paste(...)</code>. This will get the environment variable <code>SLURMD_NODENAME</code> (which <code>sbatch</code> creates) and print it on a message.</p></li>
+</ol>
+<p>To do so, we will use <strong>Secure copy protocol (scp)</strong>, which allows us to copy data to and fro computers. In this case, we should do something like the following</p>
+<pre class="bash"><code>scp 00-hello-world.slurmr vegayon@hpc-transfer1.usc.edu:/home1/vegayon/</code></pre>
+<p>In words, "Using the username <code>vegayon</code>, connect to <code>hpc-transfer1.usc.edu</code>, take the file <code>00-hello-world.slurmr</code> and copy it to <code>/home1/vegayon/</code>. With the file now available in the cluster, we can submit this job using Slurm.</p>
+</div>
+<div id="step-2-loging-in" class="section level2">
+<h2>Step 2: Loging in</h2>
+<ol style="list-style-type: decimal">
+<li><p>Log-in using ssh. In the case of Windows users, download the <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/"><strong>Putty</strong></a> client. You have two options, the <a href="https://carc.usc.edu/user-information/user-guides/high-performance-computing/getting-started-discovery"><strong>discovery</strong></a> or <a href="https://carc.usc.edu/user-information/user-guides/high-performance-computing/getting-started-endeavour"><strong>endeavour</strong></a> clusters.</p></li>
+<li><p>To login, you will need to use your USC Net ID. If your USC email is <code>flasname@usc.edu</code>, your USC Net ID is <code>flastname</code>. Then:</p>
 <pre class="bash"><code>ssh flastname@discovery.usc.edu</code></pre>
 <p>if you want to use the discovery cluster (available to all USC members), or</p>
 <pre class="bash"><code>ssh flastname@endeavour.usc.edu</code></pre>
-<p>if you want to use the endeavour cluster (using private condos).</p>
-</div>
-<div id="data-management" class="section level2">
-<h2>Data management</h2>
-<p>IMHO, these are the most important things to know about data management at USC’s HPC:</p>
-<ol style="list-style-type: decimal">
-<li><p>Do your data transfer using the transfer nodes (it is faster).</p></li>
-<li><p>Never use your home directory as a storage space (use your project’s allotted space instead).</p></li>
-<li><p>Use the scratch filesystem for temp data only, i.e., never save important files in scratch.</p></li>
-<li><p>Finally, besides of <strong>Secure copy protocol (scp)</strong>, if you are like me, try setting up a GUI client for moving your data (see <a href="https://carc.usc.edu/user-information/user-guides/data-management/transferring-files-gui">this</a>).</p></li>
+<p>if you want to use the endeavour cluster (using private condos).</p></li>
 </ol>
 </div>
-<div id="using-r-on-the-hpc" class="section level2">
-<h2>Using R on the HPC</h2>
+<div id="step-3-submitting-the-job" class="section level2">
+<h2>Step 3: Submitting the job</h2>
 <ol style="list-style-type: decimal">
 <li><p>The HPC has several pre-installed pieces of software. R is one of those.</p></li>
+<li><p>To access the pre-installed software, we use the <a href="https://lmod.readthedocs.io/en/latest/"><strong>Lmod module system</strong></a> (more information <a href="https://carc.usc.edu/user-information/user-guides/software-and-programming/lmod"><strong>here</strong></a>)</p></li>
 <li><p>It has multiple versions of R installed. Use your favorite one by running</p>
 <pre class="bash"><code>module load usc r/[version number]</code></pre>
 <p>Where <code>[version number]</code> can be 3.5.6 and up to 4.0.3 (the latest update). The <code>usc</code> module automatically loads gcc/8.3.0, openblas/0.3.8, openmpi/4.0.2, and pmix/3.1.3.</p></li>
-<li><p>It is never a good idea to use your home directory to install R packages, that’s why you should try using a <a href="">symbolic link instead</a>, like this</p>
+<li><p>It is never a good idea to use your home directory to install R packages, that’s why you should try using a <a href="https://en.wikipedia.org/wiki/Symbolic_link"><strong>symbolic link instead</strong></a>, like this</p>
 <pre class="bash"><code>cd ~
 mkdir -p /path/to/a/project/with/lots/of/space/R
 ln -s /path/to/a/project/with/lots/of/space/R R</code></pre>

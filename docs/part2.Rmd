@@ -1,9 +1,12 @@
 ---
 # title: 'Part 2: Simulating pi (once more)'
 output:
-    html_document:
-        toc: true
-        toc_float: true
+  hrbrthemes::ipsum:
+    toc: true
+    # html_document:
+    #     toc: true
+    #     toc_float: true
+    #     template: ""
 ---
 
 ```{r setup, include=FALSE}
@@ -48,7 +51,7 @@ This file has three components:
 
 - The Slurm flags `#SBATCH`.
 
-- Loading R `source ...`.
+- Loading R `module load usc` and `module load r`.
 
 - Executing the R script.
 
@@ -104,9 +107,9 @@ cat(readLines("02-mclapply.slurm"), sep="\n")
 
 In this case, there is no simple way to submit a multinodal job to Slurm... unless
 you use the [**slurmR**](https://github.com/USCbiostats/slurmR) package (see
-installation instructions [here](https://github.com/USCbiostats/slurmR#installation))
+installation instructions [**here**](https://github.com/USCbiostats/slurmR#installation))
 
-Once you have the slurmR package in your system, you can procede as follow
+Once you have the slurmR package in your system, you can proceed as follow
 
 R script ([03-parsapply-slurmr.R](03-parsapply-slurmr.R){target="_blank"}):
 
@@ -189,6 +192,6 @@ From the R console (is OK if you are in the Head node)
 slurmR::sourceSlurm("05-sapply.R")
 ```
 
-And voila! A temporary bash file will be generated and used submit the R script
+And voilá! A temporary bash file will be generated and used submit the R script
 to the queue.
 

@@ -23,6 +23,24 @@ The Center for Advanced Research Computing (formerly HPCC) has tons of resources
 
 - **Using R** https://carc.usc.edu/user-information/user-guides/software-and-programming/r
 
+
+## Data Pointers
+
+IMHO, these are the most important things to know about data management at USC's HPC:
+
+1. Do your data transfer using the transfer nodes (it is faster).
+
+2. Never use your home directory as a storage space (use your project's allotted
+  space instead).
+
+3. Use the scratch filesystem for temp data only, i.e., never save important
+  files in scratch.
+  
+4. Finally, besides of **Secure copy protocol (scp)**, if you are like me, try
+setting up a GUI client for moving your data (see
+[this](https://carc.usc.edu/user-information/user-guides/data-management/transferring-files-gui)).
+
+
 ## The Slurm options they forgot to tell you about...
 
 First of all, you have to be aware that the only thing Slurm does is allocate resources. If your application uses parallel computing or not, that's another story.

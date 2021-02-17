@@ -397,6 +397,16 @@ div.tocify {
 <li><p><strong>Using R</strong> <a href="https://carc.usc.edu/user-information/user-guides/software-and-programming/r" class="uri">https://carc.usc.edu/user-information/user-guides/software-and-programming/r</a></p></li>
 </ul>
 </div>
+<div id="data-pointers" class="section level2">
+<h2>Data Pointers</h2>
+<p>IMHO, these are the most important things to know about data management at USC’s HPC:</p>
+<ol style="list-style-type: decimal">
+<li><p>Do your data transfer using the transfer nodes (it is faster).</p></li>
+<li><p>Never use your home directory as a storage space (use your project’s allotted space instead).</p></li>
+<li><p>Use the scratch filesystem for temp data only, i.e., never save important files in scratch.</p></li>
+<li><p>Finally, besides of <strong>Secure copy protocol (scp)</strong>, if you are like me, try setting up a GUI client for moving your data (see <a href="https://carc.usc.edu/user-information/user-guides/data-management/transferring-files-gui">this</a>).</p></li>
+</ol>
+</div>
 <div id="the-slurm-options-they-forgot-to-tell-you-about" class="section level2">
 <h2>The Slurm options they forgot to tell you about…</h2>
 <p>First of all, you have to be aware that the only thing Slurm does is allocate resources. If your application uses parallel computing or not, that’s another story.</p>
