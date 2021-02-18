@@ -1,14 +1,17 @@
 name: slurmr-workshop
 include: ["part1.Rmd", "part2.Rmd", "part3.Rmd", "*.R", "Makefile"]
 navbar:
-  title: HPC with Slurm, R and the slurmR package
-  right:
+  title: HPC with slurmR
+  left:
     - text: "Home"
       href: index.html
-    - text: "Part 1: Slurm fundamentals"
+    - text: "Part 1"
       href: part1.html
-    - text: "Part 2: Simulating pi (again)"
+    - text: "Part 2"
       href: part2.html
     - text: "Misc"
       href: part3.html
+  right:
+    - icon: fab fa-github fa-lg
+      href: https://github.com/USCbiostats/slurmr-workshop
 output_dir: docs

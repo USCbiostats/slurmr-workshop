@@ -16,13 +16,13 @@
 <script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -33,22 +33,98 @@
   ul.task-list{list-style: none;}
     </style>
 
+
 <style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #2a211c;
+    color: #bdae9d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #bdae9d;  padding-left: 4px; }
+div.sourceCode
+  { color: #bdae9d; background-color: #2a211c; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ffff00; } /* Alert */
+code span.an { color: #0066ff; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #44aa43; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #43a8ed; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #049b0a; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #0066ff; font-weight: bold; font-style: italic; } /* Comment */
+code span.do { color: #0066ff; font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.dv { color: #44aa43; } /* DecVal */
+code span.er { color: #ffff00; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #44aa43; } /* Float */
+code span.fu { color: #ff9358; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #43a8ed; font-weight: bold; } /* Keyword */
+code span.op { } /* Operator */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.sc { color: #049b0a; } /* SpecialChar */
+code span.ss { color: #049b0a; } /* SpecialString */
+code span.st { color: #049b0a; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #049b0a; } /* VerbatimString */
+code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
   }
 </style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
-}
-</script>
-
 
 
 <style type="text/css">
@@ -278,24 +354,29 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">HPC with Slurm, R and the slurmR package</a>
+      <a class="navbar-brand" href="index.html">HPC with slurmR</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="part1.html">Part 1: Slurm fundamentals</a>
+  <a href="part1.html">Part 1</a>
 </li>
 <li>
-  <a href="part2.html">Part 2: Simulating pi (again)</a>
+  <a href="part2.html">Part 2</a>
 </li>
 <li>
   <a href="part3.html">Misc</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/USCbiostats/slurmr-workshop">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -314,32 +395,45 @@ $(document).ready(function () {
 <div id="contents" class="section level1">
 <h1>Contents</h1>
 <ul>
-<li><p><a href="part1.html">Part 1: Slurm fundamentals</a> (source code <a href="part1.Rmd" target="_blank">here</a>)</p></li>
+<li><p><a href="part1.html">Part 1: HPC fundamentals</a> (source code <a href="part1.Rmd" target="_blank">here</a>)</p></li>
 <li><p><a href="part2.html">Part 2: Simulating pi (again)</a> (source code <a href="part2.Rmd" target="_blank">here</a>)</p></li>
-<li><p><a href="part3.html">Misc</a> (source code <a href="part3.Rmd" target="_blank">here</a>)</p></li>
 </ul>
-<p>Previous versions of this workshop: <a href="https://github.com/USCbiostats/slurmr-workshop/tree/oct2019">2019</a>.</p>
+<p>Some random (unordered) content can be found in the <a href="part3.html">Misc</a> section. Previous versions of this workshop: <a href="https://github.com/USCbiostats/slurmr-workshop/tree/oct2019">2019</a>.</p>
 </div>
 <div id="materials" class="section level1">
 <h1>Materials</h1>
 <p>All the contents of this repository can be downloaded from the following github repository</p>
 <p><a href="https://github.com/USCbiostats/slurmR-workshop" class="uri">https://github.com/USCbiostats/slurmR-workshop</a></p>
 <p>You can also download all the contents of this repository (including R and bash scripts) using git:</p>
-<pre class="bash"><code>git clone https://github.com/USCbiostats/slurmr-workshop.git</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/USCbiostats/slurmr-workshop.git</span></code></pre></div>
+<p>The <a href="https://cran.r-project.org/package=slurmR" target="_blank"><strong>slurmR R package</strong></a> can be installed directly from CRAN:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.package</span>(<span class="st">&quot;slurmR&quot;</span>)</span></code></pre></div>
+<p>Or from Github using the <a href="https://cran.r-project.org/package=remotes" target="_blank"><strong>remotes R package</strong></a>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;USCbiostats/slurmR&quot;</span>)</span></code></pre></div>
+<p>All the examples here can be executed using GNU make. The command line entries used to run each one of the tasks follow (see the <a href="Makefile" target="_blank">Makefile</a>):</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load usc r</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> --partition=debug 00-hello-world.slurm</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> --partition=debug 01-sapply.slurm</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> --partition=debug 02-mclapply.slurm</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> --partition=debug 03-parsapply-slurmr.slurm</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> --partition=debug 04-slurm_sapply.slurm</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> -e <span class="st">&#39;slurmR::sourceSlurm(&quot;05-sapply.R&quot;, plan = &quot;submit&quot;, partition = &quot;debug&quot;)&#39;</span></span></code></pre></div>
 </div>
-<div id="misc" class="section level1">
-<h1>Misc</h1>
-<p>All the examples here can be execued using GNU make. The command line entries used to run each one of the tasks follow (see the <a href="Makefile" target="_blank">Makefile</a>):</p>
-<pre><code>module load usc r
-sbatch --partition=debug 01-sapply.slurm
-sbatch --partition=debug 02-mclapply.slurm
-sbatch --partition=debug 03-parsapply-slurmr.slurm
-sbatch --partition=debug 04-slurm_sapply.slurm
-Rscript -e &#39;slurmR::sourceSlurm(&quot;05-sapply.R&quot;, plan = &quot;submit&quot;, partition = &quot;debug&quot;)&#39;</code></pre>
+<div id="featured-happy-scientist-lynn-conway" class="section level1">
+<h1>Featured Happy Scientist: Lynn Conway</h1>
+<div align="center">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Lynn_Conway_July_2006.jpg/360px-Lynn_Conway_July_2006.jpg">
+<figcaption>
+Lynn Conway July 2006. Source: <a href="https://en.wikipedia.org/wiki/File:Lynn_Conway_July_2006.jpg" target="_blank">Wiki</a>
+</figcaption>
+</div>
+<blockquote>
+<p>Lynn Ann Conway (born January 2, 1938) is an American computer scientist, electrical engineer, inventor, and transgender activist. Conway is notable for a number of pioneering achievements. She worked at IBM in the 1960s and is credited with the invention of <strong>generalized dynamic instruction handling</strong>, a key advance used in <strong>out-of-order execution</strong>, used by most modern computer processors to improve performance. – (<a href="https://en.wikipedia.org/wiki/Lynn_Conway">Wiki</a>)</p>
+</blockquote>
 </div>
 <div id="speaker" class="section level1">
 <h1>Speaker</h1>
-<p><a href="https://ggvy.cl"><strong>George G Vega Yon, Ph.D.</strong>, <em>Biostats Research Programmer</em></a></p>
+<p><a href="https://ggvy.cl" target="_balnk"><strong>George G Vega Yon, Ph.D.</strong>, <em>Biostats Research Programmer</em></a></p>
 </div>
 
 

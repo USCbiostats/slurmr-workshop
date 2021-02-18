@@ -11,21 +11,18 @@
 
 
 
-<title>part1.utf8</title>
+<title>Part 1: HPC fundamentals</title>
 
 <script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -36,22 +33,98 @@
   ul.task-list{list-style: none;}
     </style>
 
+
 <style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #2a211c;
+    color: #bdae9d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #bdae9d;  padding-left: 4px; }
+div.sourceCode
+  { color: #bdae9d; background-color: #2a211c; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ffff00; } /* Alert */
+code span.an { color: #0066ff; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #44aa43; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #43a8ed; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #049b0a; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #0066ff; font-weight: bold; font-style: italic; } /* Comment */
+code span.do { color: #0066ff; font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.dv { color: #44aa43; } /* DecVal */
+code span.er { color: #ffff00; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #44aa43; } /* Float */
+code span.fu { color: #ff9358; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #43a8ed; font-weight: bold; } /* Keyword */
+code span.op { } /* Operator */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.sc { color: #049b0a; } /* SpecialChar */
+code span.ss { color: #049b0a; } /* SpecialString */
+code span.st { color: #049b0a; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #049b0a; } /* VerbatimString */
+code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
   }
 </style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
-}
-</script>
-
 
 
 <style type="text/css">
@@ -262,69 +335,6 @@ $(document).ready(function () {
 
 
 
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
 
 </head>
 
@@ -332,16 +342,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -354,24 +354,29 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">HPC with Slurm, R and the slurmR package</a>
+      <a class="navbar-brand" href="index.html">HPC with slurmR</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="part1.html">Part 1: Slurm fundamentals</a>
+  <a href="part1.html">Part 1</a>
 </li>
 <li>
-  <a href="part2.html">Part 2: Simulating pi (again)</a>
+  <a href="part2.html">Part 2</a>
 </li>
 <li>
   <a href="part3.html">Misc</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/USCbiostats/slurmr-workshop">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -382,34 +387,48 @@ div.tocify {
 
 
 
+<h1 class="title toc-ignore">Part 1: HPC fundamentals</h1>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#overview-of-hpc-at-usc">Overview of HPC at USC</a></li>
+<li><a href="#hello-world">Hello world</a>
+<ul>
+<li><a href="#step-1-copy-the-slurm-script-to-hpc">Step 1: Copy the Slurm script to HPC</a></li>
+<li><a href="#step-2-logging-to-hpc">Step 2: Logging to HPC</a></li>
+<li><a href="#step-3-submitting-the-job">Step 3: Submitting the job</a></li>
+</ul></li>
+</ul>
+</div>
 
 <div id="overview-of-hpc-at-usc" class="section level1">
 <h1>Overview of HPC at USC</h1>
+<div align="center">
 <figure>
-<p><img src="figs/CARC-cyberinfrastructure.png" alt="Cyberinfrastructure overview" style="width:80%;"/></p>
+<img src="figs/CARC-cyberinfrastructure.png" alt="Cyberinfrastructure overview" style="width:80%;"/>
 <figcaption>
-<p>Cyberinfrastructure overview (source: <a href="https://carc.usc.edu/user-information/system-information" class="uri">https://carc.usc.edu/user-information/system-information</a>)</p>
+Cyberinfrastructure overview (source: <a href="https://carc.usc.edu/user-information/system-information" class="uri">https://carc.usc.edu/user-information/system-information</a>)
 </figcaption>
 </figure>
+</div>
 </div>
 <div id="hello-world" class="section level1">
 <h1>Hello world</h1>
 <p>For a quick-n-dirty intro to Slurm, we will start with a simple “Hello world” using Slurm + R. For this, we need to go through the following steps:</p>
 <ol style="list-style-type: decimal">
 <li><p>Copy a Slurm script to HPC,</p></li>
-<li><p>Login to HPC, and</p></li>
+<li><p>Logging to HPC, and</p></li>
 <li><p>Submit the job using <code>sbatch</code>.</p></li>
 </ol>
 <div id="step-1-copy-the-slurm-script-to-hpc" class="section level2">
 <h2>Step 1: Copy the Slurm script to HPC</h2>
 <p>We need to copy the following Slurm script to HPC:</p>
-<pre><code>#!/bin/sh
-#SBATCH --output=00-hello-world.out
-module load usc r
-Rscript -e &quot;paste(&#39;Hello from node&#39;, Sys.getenv(&#39;SLURMD_NODENAME&#39;))&quot;</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/sh</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=00-hello-world.out</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load usc r</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> -e <span class="st">&quot;paste(&#39;Hello from node&#39;, Sys.getenv(&#39;SLURMD_NODENAME&#39;))&quot;</span></span></code></pre></div>
 <p>Which has four lines:</p>
 <ol style="list-style-type: decimal">
 <li><p><code>#!/bin/sh</code> the <strong>shebang</strong> (<a href="https://stackoverflow.com/questions/7366775/what-does-the-line-bin-sh-mean-in-a-unix-shell-script"><strong>shewhat?</strong></a>)</p></li>
@@ -418,44 +437,37 @@ Rscript -e &quot;paste(&#39;Hello from node&#39;, Sys.getenv(&#39;SLURMD_NODENAM
 <li><p><code>Rscript ...</code> a call to R to evaluate the expression <code>paste(...)</code>. This will get the environment variable <code>SLURMD_NODENAME</code> (which <code>sbatch</code> creates) and print it on a message.</p></li>
 </ol>
 <p>To do so, we will use <strong>Secure copy protocol (scp)</strong>, which allows us to copy data to and fro computers. In this case, we should do something like the following</p>
-<pre class="bash"><code>scp 00-hello-world.slurmr vegayon@hpc-transfer1.usc.edu:/home1/vegayon/</code></pre>
-<p>In words, "Using the username <code>vegayon</code>, connect to <code>hpc-transfer1.usc.edu</code>, take the file <code>00-hello-world.slurmr</code> and copy it to <code>/home1/vegayon/</code>. With the file now available in the cluster, we can submit this job using Slurm.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> 00-hello-world.slurm vegayon@hpc-transfer1.usc.edu:/home1/vegayon/</span></code></pre></div>
+<p>In words, "Using the username <code>vegayon</code>, connect to <code>hpc-transfer1.usc.edu</code>, take the file <code>00-hello-world.slurm</code> and copy it to <code>/home1/vegayon/</code>. With the file now available in the cluster, we can submit this job using Slurm.</p>
 </div>
-<div id="step-2-loging-in" class="section level2">
-<h2>Step 2: Loging in</h2>
+<div id="step-2-logging-to-hpc" class="section level2">
+<h2>Step 2: Logging to HPC</h2>
 <ol style="list-style-type: decimal">
 <li><p>Log-in using ssh. In the case of Windows users, download the <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/"><strong>Putty</strong></a> client. You have two options, the <a href="https://carc.usc.edu/user-information/user-guides/high-performance-computing/getting-started-discovery"><strong>discovery</strong></a> or <a href="https://carc.usc.edu/user-information/user-guides/high-performance-computing/getting-started-endeavour"><strong>endeavour</strong></a> clusters.</p></li>
 <li><p>To login, you will need to use your USC Net ID. If your USC email is <code>flasname@usc.edu</code>, your USC Net ID is <code>flastname</code>. Then:</p>
-<pre class="bash"><code>ssh flastname@discovery.usc.edu</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> flastname@discovery.usc.edu</span></code></pre></div>
 <p>if you want to use the discovery cluster (available to all USC members), or</p>
-<pre class="bash"><code>ssh flastname@endeavour.usc.edu</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> flastname@endeavour.usc.edu</span></code></pre></div>
 <p>if you want to use the endeavour cluster (using private condos).</p></li>
 </ol>
 </div>
 <div id="step-3-submitting-the-job" class="section level2">
 <h2>Step 3: Submitting the job</h2>
-<ol style="list-style-type: decimal">
-<li><p>The HPC has several pre-installed pieces of software. R is one of those.</p></li>
-<li><p>To access the pre-installed software, we use the <a href="https://lmod.readthedocs.io/en/latest/"><strong>Lmod module system</strong></a> (more information <a href="https://carc.usc.edu/user-information/user-guides/software-and-programming/lmod"><strong>here</strong></a>)</p></li>
-<li><p>It has multiple versions of R installed. Use your favorite one by running</p>
-<pre class="bash"><code>module load usc r/[version number]</code></pre>
-<p>Where <code>[version number]</code> can be 3.5.6 and up to 4.0.3 (the latest update). The <code>usc</code> module automatically loads gcc/8.3.0, openblas/0.3.8, openmpi/4.0.2, and pmix/3.1.3.</p></li>
-<li><p>It is never a good idea to use your home directory to install R packages, that’s why you should try using a <a href="https://en.wikipedia.org/wiki/Symbolic_link"><strong>symbolic link instead</strong></a>, like this</p>
-<pre class="bash"><code>cd ~
-mkdir -p /path/to/a/project/with/lots/of/space/R
-ln -s /path/to/a/project/with/lots/of/space/R R</code></pre>
-<p>This way, whenever you install your R packages, R will default to that location</p></li>
-<li><p>You can run interactive sessions on HPC, but this recommended to be done using the <code>salloc</code> function in Slurm, in other words, NEVER EVER USE R (OR ANY SOFTWARE) TO DO DATA ANALYSIS IN THE HEAD NODES! The options passed to salloc are the same options that can be passed to <code>sbatch</code> (see the next section.) For example, if need to do some analyses in the <code>thomas</code> partition (which is private and I have access to), I would type something like</p>
-<pre class="bash"><code>salloc --account=lc_pdt --partition=thomas --time=02:00:00 --mem-per-cpu=2G</code></pre>
-<p>This would put me in a single node allocating 2 gigs of memory for a maximum of 2 hours.</p></li>
-</ol>
+<p>Overall, there are two ways to use the compute nodes: interactively (<code>salloc</code>) and in batch mode (<code>sbatch</code>). In this case, since we have a Slurm script, we will use the latter.</p>
+<p>To submit the job, we can simple type the following:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> 00-hello-world.slurm</span></code></pre></div>
+<p>And that’s it!</p>
+<p>In the case of interactive sessions, You can start one using the <code>salloc</code> command. For example, if you wanted to run R with 8 cores, using 16 Gigs of memory in total, you would need to do the following:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">salloc</span> -n1 --cpus-per-task=8 --mem-per-task=2G --time=01:00:00</span></code></pre></div>
+<p>Once your request is submitted, you will get access to a compute node. Within it, you can load the required modules and start R:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load usc r</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span></span></code></pre></div>
+<p>Interactive sessions are not recommended for long jobs. Instead, use this resource if you need to inspect some large dataset, debug your code, etc.</p>
 </div>
 </div>
 
 
 
-</div>
-</div>
 
 </div>
 
@@ -488,32 +500,6 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

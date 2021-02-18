@@ -1,8 +1,11 @@
 ---
+title: 'Misc'
 output:
     html_document:
+        theme: cerulean
         toc: true
-        toc_float: true
+        toc_depth: 3
+        highlight: espresso
 ---
 
 ```{r setup, include=FALSE}
@@ -89,7 +92,51 @@ This is what you should use as a minimum:
 
 Also, in your R code
 
--   Any I/O should be done to either Scratch (`Sys.getenv("SCRATCHDIR")`), Tmp `Sys.getenv("TMPDIR")`, or Staging (`/staging/[you, perhaps]/`).
+-   Any I/O should be done to either Scratch (`/scratch/[your usc net id]`) or Tmp `Sys.getenv("TMPDIR")`.
+
+
+## Running R interactively
+
+1.  The HPC has several pre-installed pieces of software. R is one of those.
+
+2.  To access the pre-installed software, we use the
+    [**Lmod module system**](https://lmod.readthedocs.io/en/latest/) (more information
+    [**here**](https://carc.usc.edu/user-information/user-guides/software-and-programming/lmod))
+    
+3.  It has multiple versions of R installed. Use your favorite one by running
+
+    ``` {.bash}
+    module load usc r/[version number]
+    ```
+
+    Where `[version number]` can be 3.5.6 and up to 4.0.3 (the latest update). The `usc` module automatically loads gcc/8.3.0, openblas/0.3.8, openmpi/4.0.2, and pmix/3.1.3.
+
+3.  It is never a good idea to use your home directory to install R packages,
+    that's why you should try using a
+    [**symbolic link instead**](https://en.wikipedia.org/wiki/Symbolic_link),
+    like this
+
+    ``` {.bash}
+    cd ~
+    mkdir -p /path/to/a/project/with/lots/of/space/R
+    ln -s /path/to/a/project/with/lots/of/space/R R
+    ```
+
+    This way, whenever you install your R packages, R will default to that location
+
+4.  You can run interactive sessions on HPC, but this recommended to be done using
+    the `salloc` function in Slurm, in other words, NEVER EVER USE R (OR ANY SOFTWARE)
+    TO DO DATA ANALYSIS IN THE HEAD NODES! The options passed to salloc are the same
+    options that can be passed to `sbatch` (see the next section.) For example, if
+    need to do some analyses in the `thomas` partition (which is private and I have
+    access to), I would type something like
+
+    ``` {.bash}
+    salloc --account=lc_pdt --partition=thomas --time=02:00:00 --mem-per-cpu=2G
+    ```
+
+    This would put me in a single node allocating 2 gigs of memory for a maximum of 2 hours.
+
 
 ## NoNos when using R
 

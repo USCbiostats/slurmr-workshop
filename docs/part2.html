@@ -1,58 +1,412 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+
+<html>
 
 <head>
 
-<meta charset="utf-8">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
 
-<title></title>
-
-<link href="https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet"/>
+<title>Part 2: Simulating pi (once more)</title>
 
 <script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
-<link href="site_libs/ipsum-0.1.0/ipsum.css" rel="stylesheet" />
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
 
 <style type="text/css">code{white-space: pre;}</style>
-<link rel="stylesheet"
-      href="site_libs/default.css"
-      type="text/css" />
-<script src="site_libs/highlight.js"></script>
-<script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
 }
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #2a211c;
+    color: #bdae9d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #bdae9d;  padding-left: 4px; }
+div.sourceCode
+  { color: #bdae9d; background-color: #2a211c; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ffff00; } /* Alert */
+code span.an { color: #0066ff; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #44aa43; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #43a8ed; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #049b0a; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #0066ff; font-weight: bold; font-style: italic; } /* Comment */
+code span.do { color: #0066ff; font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.dv { color: #44aa43; } /* DecVal */
+code span.er { color: #ffff00; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #44aa43; } /* Float */
+code span.fu { color: #ff9358; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #43a8ed; font-weight: bold; } /* Keyword */
+code span.op { } /* Operator */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.sc { color: #049b0a; } /* SpecialChar */
+code span.ss { color: #049b0a; } /* SpecialString */
+code span.st { color: #049b0a; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #049b0a; } /* VerbatimString */
+code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
 </script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
 
 
 
 </head>
 
 <body>
-<div class="container">
-
-<h1></h1>
 
 
-<div id="toc">
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">HPC with slurmR</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="part1.html">Part 1</a>
+</li>
+<li>
+  <a href="part2.html">Part 2</a>
+</li>
+<li>
+  <a href="part3.html">Misc</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/USCbiostats/slurmr-workshop">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Part 2: Simulating pi (once more)</h1>
+
+</div>
+
+<div id="TOC">
 <ul>
-<li><a href="#simulating-pi">Simulating pi</a></li>
-<li><a href="#submitting-jobs-to-slurm">Submitting jobs to Slurm</a></li>
-<li><a href="#jobs-with-the-slurmr-package">Jobs with the slurmR package</a></li>
+<li><a href="#submitting-jobs-to-slurm">Submitting jobs to Slurm</a>
+<ul>
+<li><a href="#case-1-single-job-single-core-job">Case 1: Single job, single core job</a></li>
+<li><a href="#case-2-single-job-multicore-job">Case 2: Single job, multicore job</a></li>
+</ul></li>
+<li><a href="#jobs-with-the-slurmr-package">Jobs with the slurmR package</a>
+<ul>
+<li><a href="#case-3-single-job-multinode-job">Case 3: Single job, multinode job</a></li>
+<li><a href="#case-4-multi-job-singlemulti-core">Case 4: Multi job, single/multi-core</a></li>
+<li><a href="#case-5-skipping-the-.slurm-file">Case 5: Skipping the .slurm file</a></li>
+</ul></li>
 </ul>
 </div>
 
-<div id="simulating-pi" class="section level2">
-<h2>Simulating pi</h2>
 <p>This is the same old example that lots of people (including me) have been using to ilustrate parallel computing with R. The example is very simple, we want to approximate pi by doing some Monte Carlo simulations.</p>
 <p>We know that the area of a circle is <span class="math inline">\(A = \pi r^2\)</span>, which is equivalent to say <span class="math inline">\(\pi = A/r^2\)</span>, so, if we can approximate the Area of a circle, then we can approximate <span class="math inline">\(\pi\)</span>. How do we do this?</p>
 <p>Using montecarlo experiments, we have that the probability that a random point <span class="math inline">\(x\)</span> falls within the unit circle can be approximated using the following formula</p>
@@ -60,19 +414,21 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 \hat p = \frac{1}{n}\sum_i \mathbf{1}(x \in \mbox{Circle})
 \]</span></p>
 <p>This approximation, <span class="math inline">\(\hat p\)</span>, multiplied by the area of the escribed square, which has an area equal to <span class="math inline">\((2\times r)^2\)</span>, thus, we can finally write</p>
-<p><span class="math display">\[
+<span class="math display">\[
 \hat \pi = \hat p \times (2\times r)^2 / r^2 = 4 \hat p
-\]</span></p>
+\]</span>
+<div align="center">
+<p><img src="part2_files/figure-html/simplot-1.png" width="40%" /></p>
 </div>
 <div id="submitting-jobs-to-slurm" class="section level2">
 <h2>Submitting jobs to Slurm</h2>
 <p>The main way that we will be working is submitting jobs using the <code>sbatch</code> function. This function takes as a main argument a bash file with the program to execute. In the case of R, a regular bash file looks something like this:</p>
-<pre><code>#!/bin/sh
-#SBATCH --job-name=sapply
-#SBATCH --time=01:00:00
-
-module load usc r
-Rscript --vanilla 01-sapply.R</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/sh</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=sapply</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=01:00:00</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load usc r</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> --vanilla 01-sapply.R</span></code></pre></div>
 <p>This file has three components:</p>
 <ul>
 <li><p>The Slurm flags <code>#SBATCH</code>.</p></li>
@@ -80,68 +436,68 @@ Rscript --vanilla 01-sapply.R</code></pre>
 <li><p>Executing the R script.</p></li>
 </ul>
 <p>To submit a job the to queue, we need to enter the following:</p>
-<pre class="bash"><code>sbatch 01-sapply.slurm</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> 01-sapply.slurm</span></code></pre></div>
 <p>The following examples have two files, a bash script and a R script to be called by Slurm.</p>
 <div id="case-1-single-job-single-core-job" class="section level3">
 <h3>Case 1: Single job, single core job</h3>
 <p>The most basic way is submitting a job using the <a href=""><code>sbatch</code></a> command. Im this case you need to have 2 files: (1) An R script, and (2) a bash script. e.g.</p>
 <p>The contents of the R script (<a href="01-sapply.R" target="_blank">01-sapply.R</a>) are:</p>
-<pre><code># Model parameters
-nsims &lt;- 1e3
-n     &lt;- 1e4
-
-# Function to simulate pi
-simpi &lt;- function(i) {
-  
-  p &lt;- matrix(runif(n*2, -1, 1), ncol = 2)
-  mean(sqrt(rowSums(p^2)) &lt;= 1) * 4
-  
-}
-
-# Approximation
-set.seed(12322)
-ans &lt;- sapply(1:nsims, simpi)
-
-saveRDS(ans, &quot;01-sapply.rds&quot;)</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model parameters</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>nsims <span class="ot">&lt;-</span> <span class="fl">1e3</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>n     <span class="ot">&lt;-</span> <span class="fl">1e4</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to simulate pi</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>simpi <span class="ot">&lt;-</span> <span class="cf">function</span>(i) {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(n<span class="sc">*</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(<span class="fu">sqrt</span>(<span class="fu">rowSums</span>(p<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">&lt;=</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">4</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Approximation</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12322</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nsims, simpi)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(ans, <span class="st">&quot;01-sapply.rds&quot;</span>)</span></code></pre></div>
 <p>The contents of the bashfile (<a href="01-sapply.slurm" target="_blank">01-sapply.slurm</a>) are:</p>
-<pre><code>#!/bin/sh
-#SBATCH --job-name=sapply
-#SBATCH --time=01:00:00
-
-module load usc r
-Rscript --vanilla 01-sapply.R</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/sh</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=sapply</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=01:00:00</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>module load usc r</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>Rscript <span class="sc">--</span>vanilla <span class="dv">01</span><span class="sc">-</span>sapply.R</span></code></pre></div>
 </div>
 <div id="case-2-single-job-multicore-job" class="section level3">
 <h3>Case 2: Single job, multicore job</h3>
 <p>Now, imagine that we would like to use more than one processor for this job, using something like the <code>parallel::mclapply</code> function from the parallel package. Then, besides of adapting the code, we need to tell Slurm that we are using more than one core per-task, as the following example:</p>
 <p>R script (<a href="02-mclapply.R" target="_blank">02-mclapply.R</a>):</p>
-<pre><code># Model parameters
-nsims  &lt;- 1e3
-n      &lt;- 1e4
-ncores &lt;- 4L
-
-# Function to simulate pi
-simpi &lt;- function(i) {
-  
-  p &lt;- matrix(runif(n*2, -1, 1), ncol = 2)
-  mean(sqrt(rowSums(p^2)) &lt;= 1) * 4
-  
-}
-
-# Approximation
-set.seed(12322)
-ans &lt;- parallel::mclapply(1:nsims, simpi, mc.cores = ncores)
-ans &lt;- unlist(ans)
-
-saveRDS(ans, &quot;02-mclpply.rds&quot;)</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model parameters</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>nsims  <span class="ot">&lt;-</span> <span class="fl">1e3</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>n      <span class="ot">&lt;-</span> <span class="fl">1e4</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>ncores <span class="ot">&lt;-</span> 4L</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to simulate pi</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>simpi <span class="ot">&lt;-</span> <span class="cf">function</span>(i) {</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(n<span class="sc">*</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(<span class="fu">sqrt</span>(<span class="fu">rowSums</span>(p<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">&lt;=</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">4</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Approximation</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12322</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">mclapply</span>(<span class="dv">1</span><span class="sc">:</span>nsims, simpi, <span class="at">mc.cores =</span> ncores)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> <span class="fu">unlist</span>(ans)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(ans, <span class="st">&quot;02-mclpply.rds&quot;</span>)</span></code></pre></div>
 <p>Bashfile (<a href="02-mclapply.slurm" target="_blank">02-mclapply.slurm</a>):</p>
-<pre><code>#!/bin/sh
-#SBATCH --job-name=mclapply
-#SBATCH --time=01:00:00
-#SBATCH --cpus-per-task=4
-
-module load usc r
-Rscript --vanilla 02-mclapply.R</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/sh</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=mclapply</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=01:00:00</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=4</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load usc r</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> --vanilla 02-mclapply.R</span></code></pre></div>
 </div>
 </div>
 <div id="jobs-with-the-slurmr-package" class="section level2">
@@ -151,87 +507,87 @@ Rscript --vanilla 02-mclapply.R</code></pre>
 <p>In this case, there is no simple way to submit a multinodal job to Slurm… unless you use the <a href="https://github.com/USCbiostats/slurmR"><strong>slurmR</strong></a> package (see installation instructions <a href="https://github.com/USCbiostats/slurmR#installation"><strong>here</strong></a>)</p>
 <p>Once you have the slurmR package in your system, you can proceed as follow</p>
 <p>R script (<a href="03-parsapply-slurmr.R" target="_blank">03-parsapply-slurmr.R</a>):</p>
-<pre><code># Model parameters
-nsims  &lt;- 1e3
-n      &lt;- 1e4
-ncores &lt;- 4L
-
-# Function to simulate pi
-simpi &lt;- function(i) {
-  
-  p &lt;- matrix(runif(n*2, -1, 1), ncol = 2)
-  mean(sqrt(rowSums(p^2)) &lt;= 1) * 4
-  
-}
-
-# Setting up slurmR
-library(slurmR) # This also loads the parallel package
-
-# Making the cluster, and exporting the variables
-cl &lt;- makeSlurmCluster(ncores)
-
-# Approximation
-clusterExport(cl, c(&quot;n&quot;, &quot;simpi&quot;))
-ans &lt;- parSapply(cl, 1:nsims, simpi)
-
-# Closing connection
-stopCluster(cl)
-
-saveRDS(ans, &quot;03-parsapply-slurmr.rds&quot;)</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model parameters</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>nsims  <span class="ot">&lt;-</span> <span class="fl">1e3</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>n      <span class="ot">&lt;-</span> <span class="fl">1e4</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>ncores <span class="ot">&lt;-</span> 4L</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to simulate pi</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>simpi <span class="ot">&lt;-</span> <span class="cf">function</span>(i) {</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(n<span class="sc">*</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(<span class="fu">sqrt</span>(<span class="fu">rowSums</span>(p<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">&lt;=</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">4</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting up slurmR</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(slurmR) <span class="co"># This also loads the parallel package</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Making the cluster, and exporting the variables</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeSlurmCluster</span>(ncores)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Approximation</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="fu">clusterExport</span>(cl, <span class="fu">c</span>(<span class="st">&quot;n&quot;</span>, <span class="st">&quot;simpi&quot;</span>))</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> <span class="fu">parSapply</span>(cl, <span class="dv">1</span><span class="sc">:</span>nsims, simpi)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Closing connection</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cl)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(ans, <span class="st">&quot;03-parsapply-slurmr.rds&quot;</span>)</span></code></pre></div>
 <p>Bashfile (<a href="03-parsapply-slurmr.slurm" target="_blank">03-parsapply-slurmr.slurm</a>):</p>
-<pre><code>#!/bin/sh
-#SBATCH --job-name=parsapply
-#SBATCH --time=01:00:00
-
-module load usc r
-Rscript --vanilla 03-parsapply-slurmr.R</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/sh</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=parsapply</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=01:00:00</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load usc r</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> --vanilla 03-parsapply-slurmr.R</span></code></pre></div>
 </div>
 <div id="case-4-multi-job-singlemulti-core" class="section level3">
 <h3>Case 4: Multi job, single/multi-core</h3>
 <p>Another way to submit jobs is using <a href="https://slurm.schedmd.com/job_array.html"><strong>job arrays</strong></a>. A job array is essentially a job that is repreated <code>njobs</code> times with the same configuration. The main difference between replicates is what you do with the <code>SLURM_ARRAY_TASK_ID</code> environment variable. This variable is defined within each replicate and can be used to make the “subjob” depending on that.</p>
 <p>Here is a quick example using R</p>
-<pre class="r"><code>ID &lt;- Sys.getenv(&quot;SLURM_ARRAY_TASK_ID&quot;)
-if (ID == 1) {
-  ...[do this]...
-} else if (ID == 2) {
-  ...[do that]...
-}</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ID <span class="ot">&lt;-</span> <span class="fu">Sys.getenv</span>(<span class="st">&quot;SLURM_ARRAY_TASK_ID&quot;</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (ID <span class="sc">==</span> <span class="dv">1</span>) {</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  ...[do this]...</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (ID <span class="sc">==</span> <span class="dv">2</span>) {</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  ...[do that]...</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>The <code>slurmR</code> R package makes submitting job arrays easy. Again, with the simulation of pi, we can do it in the following way:</p>
 <p>R script (<a href="04-slurm_sapply.R" target="_blank">04-slurm_sapply.R</a>):</p>
-<pre><code># Model parameters
-nsims  &lt;- 1e3
-n      &lt;- 1e4
-# ncores &lt;- 4L
-njobs  &lt;- 4L
-
-# Function to simulate pi
-simpi &lt;- function(i, n.) {
-  
-  p &lt;- matrix(runif(n.*2, -1, 1), ncol = 2)
-  mean(sqrt(rowSums(p^2)) &lt;= 1) * 4
-  
-}
-
-# Setting up slurmR
-library(slurmR) # This also loads the parallel package
-
-# Approximation
-ans &lt;- Slurm_sapply(
-  1:nsims, simpi,
-  n.       = n,
-  njobs    = njobs,
-  plan     = &quot;collect&quot;,
-  tmp_path = &quot;/staging/ggv&quot; # This is where all temp files will be exported
-  )
-
-saveRDS(ans, &quot;04-slurm_sapply.rds&quot;)</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model parameters</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>nsims  <span class="ot">&lt;-</span> <span class="fl">1e3</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>n      <span class="ot">&lt;-</span> <span class="fl">1e4</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ncores &lt;- 4L</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>njobs  <span class="ot">&lt;-</span> 4L</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to simulate pi</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>simpi <span class="ot">&lt;-</span> <span class="cf">function</span>(i, n.) {</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(n.<span class="sc">*</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(<span class="fu">sqrt</span>(<span class="fu">rowSums</span>(p<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">&lt;=</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">4</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting up slurmR</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(slurmR) <span class="co"># This also loads the parallel package</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Approximation</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> <span class="fu">Slurm_sapply</span>(</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span><span class="sc">:</span>nsims, simpi,</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.       =</span> n,</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">njobs    =</span> njobs,</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">plan     =</span> <span class="st">&quot;collect&quot;</span>,</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">tmp_path =</span> <span class="st">&quot;/scratch/vegayon&quot;</span> <span class="co"># This is where all temp files will be exported</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(ans, <span class="st">&quot;04-slurm_sapply.rds&quot;</span>)</span></code></pre></div>
 <p>Bashfile (<a href="04-slurm_sapply.slurm" target="_blank">04-slurm_sapply.slurm</a>):</p>
-<pre><code>#!/bin/sh
-#SBATCH --job-name=slurm_sapply
-#SBATCH --time=01:00:00
-
-module load usc r
-Rscript --vanilla 04-slurm_sapply.R</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/sh</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=slurm_sapply</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=01:00:00</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load usc r</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> --vanilla 04-slurm_sapply.R</span></code></pre></div>
 <p>One of the main benefits of using this approach instead of the the <code>makeSlurmCluster</code> function (and thus, working with a SOCK cluster) are:</p>
 <ul>
 <li><p>The number of jobs is not limited here (only by the admin, but not by R).</p></li>
@@ -244,35 +600,67 @@ Rscript --vanilla 04-slurm_sapply.R</code></pre>
 <h3>Case 5: Skipping the .slurm file</h3>
 <p>The <code>slurmR</code> package has a function named <code>sourceSlurm</code> that can be used to avoid creating the <code>.slurm</code> file. The user can add the SBATCH options to the top of the R script (including the <code>#!/bin/sh</code> line) and submit the job from within R as follows:</p>
 <p>R script (<a href="05-sapply.R" target="_blank">05-sapply.R</a>):</p>
-<pre><code>#!/bin/sh
-#SBATCH --job-name=sapply-sourceSlurm
-#SBATCH --time=01:00:00
-
-# Model parameters
-nsims &lt;- 1e3
-n     &lt;- 1e4
-
-# Function to simulate pi
-simpi &lt;- function(i) {
-  
-  p &lt;- matrix(runif(n*2, -1, 1), ncol = 2)
-  mean(sqrt(rowSums(p^2)) &lt;= 1) * 4
-  
-}
-
-# Approximation
-set.seed(12322)
-ans &lt;- sapply(1:nsims, simpi)
-
-saveRDS(ans, &quot;05-sapply.rds&quot;)</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/sh</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=sapply-sourceSlurm</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=01:00:00</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Model parameters</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>nsims <span class="ot">&lt;-</span> <span class="fl">1e3</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>n     <span class="ot">&lt;-</span> <span class="fl">1e4</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to simulate pi</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>simpi <span class="ot">&lt;-</span> <span class="cf">function</span>(i) {</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(n<span class="sc">*</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(<span class="fu">sqrt</span>(<span class="fu">rowSums</span>(p<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">&lt;=</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">4</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Approximation</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12322</span>)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nsims, simpi)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(ans, <span class="st">&quot;05-sapply.rds&quot;</span>)</span></code></pre></div>
 <p>From the R console (is OK if you are in the Head node)</p>
-<pre class="r"><code>slurmR::sourceSlurm(&quot;05-sapply.R&quot;)</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>slurmR<span class="sc">::</span><span class="fu">sourceSlurm</span>(<span class="st">&quot;05-sapply.R&quot;</span>)</span></code></pre></div>
 <p>And voilá! A temporary bash file will be generated and used submit the R script to the queue.</p>
 </div>
 </div>
 
 
+
+
 </div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

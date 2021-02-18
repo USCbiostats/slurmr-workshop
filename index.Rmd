@@ -1,16 +1,29 @@
 ---
-title: HPC with Slurm, R and the slurmR package
-output: html_document
+title: 'HPC with Slurm, R and the slurmR package'
+output:
+    html_document:
+        theme: cerulean
+        toc: false
+        highlight: espresso
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, results = 'asis', warning = FALSE, comment = "")
+cat2 <- function(..., lang = 'r') {
+  cat("```", lang, "\n", sep = "")
+  cat(...)
+  cat("```\n")
+}
+```
 
 # Contents
 
-- [Part 1: Slurm fundamentals](part1.html) (source code [here](part1.Rmd){target="_blank"})
+- [Part 1: HPC fundamentals](part1.html) (source code [here](part1.Rmd){target="_blank"})
 
 - [Part 2: Simulating pi (again)](part2.html) (source code [here](part2.Rmd){target="_blank"})
 
-- [Misc](part3.html) (source code [here](part3.Rmd){target="_blank"})
 
+Some random (unordered) content can be found in the [Misc](part3.html) section. 
 Previous versions of this workshop: [2019](https://github.com/USCbiostats/slurmr-workshop/tree/oct2019).
 
 # Materials
@@ -27,19 +40,46 @@ scripts) using git:
 git clone https://github.com/USCbiostats/slurmr-workshop.git
 ```
 
-# Misc
+The [**slurmR R package**](https://cran.r-project.org/package=slurmR){target="_blank"} can be
+installed directly from CRAN:
 
-All the examples here can be execued using GNU make. The command line entries
+```r
+install.package("slurmR")
+```
+
+Or from Github using the [**remotes R package**](https://cran.r-project.org/package=remotes){target="_blank"}:
+
+```r
+remotes::install_github("USCbiostats/slurmR")
+```
+
+All the examples here can be executed using GNU make. The command line entries
 used to run each one of the tasks follow (see the [Makefile](Makefile){target="_blank"}):
 
-```{r echo=FALSE, comment= ""}
+```{r}
 make <- readLines("Makefile")
 make <- make[grepl("^[^a-zA-Z0-9]", make)]
 make <- gsub("(^\\s+|\\s*&.*$)", "", make, perl = TRUE)
-cat(make, sep="\n")
+cat2(make, sep="\n", lang = "bash")
 ```
 
+# Featured Happy Scientist: Lynn Conway
+
+<div align="center">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Lynn_Conway_July_2006.jpg/360px-Lynn_Conway_July_2006.jpg">
+<figcaption>
+Lynn Conway July 2006. Source: <a href="https://en.wikipedia.org/wiki/File:Lynn_Conway_July_2006.jpg" target="_blank">Wiki</a>
+</figcaption>
+</div>
+
+> Lynn Ann Conway (born January 2, 1938) is an American computer scientist,
+electrical engineer, inventor, and transgender activist. Conway is notable for
+a number of pioneering achievements. She worked at IBM in the 1960s and is
+credited with the invention of **generalized dynamic instruction handling**, a key
+advance used in **out-of-order execution**, used by most modern computer processors
+to improve performance. -- ([Wiki](https://en.wikipedia.org/wiki/Lynn_Conway))
 
 # Speaker
 
-[**George G Vega Yon, Ph.D.**, *Biostats Research Programmer*](https://ggvy.cl)
+[**George G Vega Yon, Ph.D.**, *Biostats Research Programmer*](https://ggvy.cl){target="_balnk"}
+

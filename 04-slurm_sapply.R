@@ -21,7 +21,7 @@ ans <- Slurm_sapply(
   n.       = n,
   njobs    = njobs,
   plan     = "collect",
-  tmp_path = "/staging/ggv" # This is where all temp files will be exported
+  tmp_path = "/scratch/vegayon" # This is where all temp files will be exported
   )
 
 saveRDS(ans, "04-slurm_sapply.rds")

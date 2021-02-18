@@ -1,5 +1,6 @@
 all:
 	module load usc r && \
+		sbatch --partition=debug 00-hello-world.slurm & \
 		sbatch --partition=debug 01-sapply.slurm & \
 		sbatch --partition=debug 02-mclapply.slurm & \
 		sbatch --partition=debug 03-parsapply-slurmr.slurm & \

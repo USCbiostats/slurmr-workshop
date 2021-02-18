@@ -1,19 +1,23 @@
 ---
-# title: 'Part 2: Simulating pi (once more)'
+title: 'Part 2: Simulating pi (once more)'
 output:
-  hrbrthemes::ipsum:
-    toc: true
-    # html_document:
-    #     toc: true
-    #     toc_float: true
-    #     template: ""
+    html_document:
+        theme: cerulean
+        toc: true
+        toc_depth: 3
+        highlight: espresso
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, results = 'asis', warning = FALSE, comment = "")
+cat2 <- function(..., lang = 'r') {
+  cat("```", lang, "\n", sep = "")
+  cat(...)
+  cat("```\n")
+}
 ```
 
-## Simulating pi
+
 
 This is the same old example that lots of people (including me) have been using
 to ilustrate parallel computing with R. The example is very simple, we want to
@@ -36,15 +40,31 @@ has an area equal to $(2\times r)^2$, thus, we can finally write
 $$
 \hat \pi = \hat p \times (2\times r)^2 / r^2 = 4 \hat p
 $$
+<div align="center">
 
+```{r simplot, echo=FALSE, out.width='40%', fig.width=7, fig.height=7.5}
+set.seed(2312)
+x <- matrix(runif(1e4*2, min = -1, max = 1), ncol=2)
+plot(
+  x, type = "p",
+  col  = adjustcolor(
+    c("steelblue", "tomato")[(sqrt(rowSums(x^2)) < 1) + 1],
+    alpha.f = .5
+    ),
+  main = "Random dots within the unit circle",
+  pch  = 19
+  )
+```
+
+</div>
 ## Submitting jobs to Slurm
 
 The main way that we will be working is submitting jobs using the `sbatch` function.
 This function takes as a main argument a bash file with the program to execute.
 In the case of R, a regular bash file looks something like this:
 
-```{r echo=FALSE, comment=""}
-cat(readLines("01-sapply.slurm"), sep="\n")
+```{r}
+cat2(readLines("01-sapply.slurm"), sep="\n", lang = 'bash')
 ```
 
 This file has three components:
@@ -72,14 +92,16 @@ case you need to have 2 files: (1) An R script, and (2) a bash script. e.g.
 
 The contents of the R script ([01-sapply.R](01-sapply.R){target="_blank"}) are:
 
-```{r, results='markup', warning=FALSE, comment="", echo=FALSE}
-cat(readLines("01-sapply.R"), sep="\n")
+
+```{r}
+cat2(readLines("01-sapply.R"), sep="\n", lang = 'r')
 ```
+
 
 The contents of the bashfile ([01-sapply.slurm](01-sapply.slurm){target="_blank"}) are:
 
-```{r, results='markup', warning=FALSE, comment="", echo=FALSE}
-cat(readLines("01-sapply.slurm"), sep="\n")
+```{r}
+cat2(readLines("01-sapply.slurm"), sep="\n")
 ```
     
 ### Case 2: Single job, multicore job
@@ -91,14 +113,14 @@ more than one core per-task, as the following example:
 
 R script ([02-mclapply.R](02-mclapply.R){target="_blank"}):
 
-```{r, warning=FALSE, comment="", echo=FALSE}
-cat(readLines("02-mclapply.R"), sep="\n")
+```{r}
+cat2(readLines("02-mclapply.R"), sep="\n")
 ```
 
 Bashfile ([02-mclapply.slurm](02-mclapply.slurm){target="_blank"}):
 
-```{r, warning=FALSE, comment="", echo=FALSE}
-cat(readLines("02-mclapply.slurm"), sep="\n")
+```{r}
+cat2(readLines("02-mclapply.slurm"), sep="\n", lang = "bash")
 ```
 
 ## Jobs with the slurmR package 
@@ -113,14 +135,14 @@ Once you have the slurmR package in your system, you can proceed as follow
 
 R script ([03-parsapply-slurmr.R](03-parsapply-slurmr.R){target="_blank"}):
 
-```{r, warning=FALSE, comment="", echo=FALSE}
-cat(readLines("03-parsapply-slurmr.R"), sep="\n")
+```{r}
+cat2(readLines("03-parsapply-slurmr.R"), sep="\n")
 ```
 
 Bashfile ([03-parsapply-slurmr.slurm](03-parsapply-slurmr.slurm){target="_blank"}):
 
-```{r, warning=FALSE, comment="", echo=FALSE}
-cat(readLines("03-parsapply-slurmr.slurm"), sep="\n")
+```{r}
+cat2(readLines("03-parsapply-slurmr.slurm"), sep="\n", lang = "bash")
 ```
 
 
@@ -148,14 +170,14 @@ of pi, we can do it in the following way:
 
 R script ([04-slurm_sapply.R](04-slurm_sapply.R){target="_blank"}):
 
-```{r, warning=FALSE, comment="", echo=FALSE}
-cat(readLines("04-slurm_sapply.R"), sep="\n")
+```{r}
+cat2(readLines("04-slurm_sapply.R"), sep="\n")
 ```
 
 Bashfile ([04-slurm_sapply.slurm](04-slurm_sapply.slurm){target="_blank"}):
 
-```{r, warning=FALSE, comment="", echo=FALSE}
-cat(readLines("04-slurm_sapply.slurm"), sep="\n")
+```{r}
+cat2(readLines("04-slurm_sapply.slurm"), sep="\n", lang = "bash")
 ```
 
 
@@ -182,8 +204,8 @@ as follows:
 
 R script ([05-sapply.R](05-sapply.R){target="_blank"}):
 
-```{r, warning=FALSE, comment="", echo=FALSE}
-cat(readLines("05-sapply.R"), sep="\n")
+```{r}
+cat2(readLines("05-sapply.R"), sep="\n")
 ```
 
 From the R console (is OK if you are in the Head node)
