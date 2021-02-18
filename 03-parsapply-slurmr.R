@@ -24,5 +24,7 @@ ans <- parSapply(cl, 1:nsims, simpi)
 # Closing connection
 stopCluster(cl)
 
+message("Pi: ", mean(ans))
+
 saveRDS(ans, "03-parsapply-slurmr.rds")
 

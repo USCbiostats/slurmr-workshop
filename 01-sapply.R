@@ -14,5 +14,7 @@ simpi <- function(i) {
 set.seed(12322)
 ans <- sapply(1:nsims, simpi)
 
+message("Pi: ", mean(ans))
+
 saveRDS(ans, "01-sapply.rds")
 

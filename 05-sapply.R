@@ -1,6 +1,6 @@
 #!/bin/sh
 #SBATCH --job-name=sapply-sourceSlurm
-#SBATCH --time=01:00:00
+#SBATCH --time=00:10:00
 
 # Model parameters
 nsims <- 1e3
@@ -17,6 +17,8 @@ simpi <- function(i) {
 # Approximation
 set.seed(12322)
 ans <- sapply(1:nsims, simpi)
+
+message("Pi: ", mean(ans))
 
 saveRDS(ans, "05-sapply.rds")
 

@@ -16,5 +16,7 @@ set.seed(12322)
 ans <- parallel::mclapply(1:nsims, simpi, mc.cores = ncores)
 ans <- unlist(ans)
 
+message("Pi: ", mean(ans))
+
 saveRDS(ans, "02-mclpply.rds")
 
