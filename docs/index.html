@@ -412,12 +412,16 @@ $(document).ready(function () {
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;USCbiostats/slurmR&quot;</span>)</span></code></pre></div>
 <p>All the examples here can be executed using GNU make. The command line entries used to run each one of the tasks follow (see the <a href="Makefile" target="_blank">Makefile</a>):</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load usc r</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> --partition=debug 00-hello-world.slurm</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> --partition=debug 01-sapply.slurm</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> --partition=debug 02-mclapply.slurm</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> --partition=debug 03-parsapply-slurmr.slurm</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> --partition=debug 04-slurm_sapply.slurm</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> -e <span class="st">&#39;slurmR::sourceSlurm(&quot;05-sapply.R&quot;, plan = &quot;submit&quot;, partition = &quot;debug&quot;)&#39;</span></span></code></pre></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> 00-hello-world.slurm</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> 01-sapply.slurm</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> 02-mclapply.slurm</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># sbatch 03-parsapply-slurmr.slurm</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> 04-slurm_sapply.slurm #</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Rscript -e &#39;slurmR::sourceSlurm(&quot;05-sapply.R&quot;, plan = &quot;submit&quot;)&#39;</span></span></code></pre></div>
+<p>The last example can be executed directly while on the login node</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load usc r</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> -e <span class="st">&#39;slurmR::sourceSlurm(&quot;05-sapply.R&quot;, plan = &quot;submit&quot;)&#39;</span></span></code></pre></div>
+<p>This will submit a job without the need to write a slurm script!</p>
 </div>
 <div id="featured-happy-scientist-lynn-conway" class="section level1">
 <h1>Featured Happy Scientist: Lynn Conway</h1>

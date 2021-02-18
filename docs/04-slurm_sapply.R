@@ -24,5 +24,7 @@ ans <- Slurm_sapply(
   tmp_path = "/scratch/vegayon" # This is where all temp files will be exported
   )
 
+message("Pi: ", mean(ans))
+
 saveRDS(ans, "04-slurm_sapply.rds")
 

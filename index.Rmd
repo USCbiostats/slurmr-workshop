@@ -63,6 +63,15 @@ make <- gsub("(^\\s+|\\s*&.*$)", "", make, perl = TRUE)
 cat2(make, sep="\n", lang = "bash")
 ```
 
+The last example can be executed directly while on the login node
+
+```bash
+module load usc r
+Rscript -e 'slurmR::sourceSlurm("05-sapply.R", plan = "submit")'
+```
+
+This will submit a job without the need to write a slurm script!
+
 # Featured Happy Scientist: Lynn Conway
 
 <div align="center">

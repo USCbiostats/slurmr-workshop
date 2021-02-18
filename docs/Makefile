@@ -1,8 +1,8 @@
 all:
 	module load usc r && \
-		sbatch --partition=debug 00-hello-world.slurm & \
-		sbatch --partition=debug 01-sapply.slurm & \
-		sbatch --partition=debug 02-mclapply.slurm & \
-		sbatch --partition=debug 03-parsapply-slurmr.slurm & \
-		sbatch --partition=debug 04-slurm_sapply.slurm & \
-		Rscript -e 'slurmR::sourceSlurm("05-sapply.R", plan = "submit", partition = "debug")' &
+		sbatch 00-hello-world.slurm & \
+		sbatch 01-sapply.slurm & \
+		sbatch 02-mclapply.slurm & \
+		# sbatch 03-parsapply-slurmr.slurm & 
+		sbatch 04-slurm_sapply.slurm # & \
+		# Rscript -e 'slurmR::sourceSlurm("05-sapply.R", plan = "submit")' &
