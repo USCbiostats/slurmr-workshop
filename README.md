@@ -1,5 +1,9 @@
 # About the seminar
 
+[![](https://raw.githubusercontent.com/USCbiostats/badges/master/tommy-image-badge.svg)](https://image.usc.edu)
+
+![](https://github.com/USCbiostats/slurmR/raw/c9c775bb0d4d6590044dc9227ad8c422e33a185b/man/figures/logo.png){style="width:200px;"}
+
 **Abstract** The Slurm job-scheduler (currently used by USC) provides a flexible
 infrastructure for all your computing needs. From submitting a single-core-long-running-job
 to complex multi-node-tasks, Slurm covers all scientists' needs in terms of
