@@ -18,6 +18,8 @@ cat2 <- function(..., lang = 'r') {
 
 # Contents
 
+![](https://github.com/USCbiostats/slurmR/raw/c9c775bb0d4d6590044dc9227ad8c422e33a185b/man/figures/logo.png){style="width:200px;"}
+
 - [Part 1: HPC fundamentals](part1.html) (source code [here](part1.Rmd){target="_blank"})
 
 - [Part 2: Simulating pi (again)](part2.html) (source code [here](part2.Rmd){target="_blank"})
@@ -25,6 +27,8 @@ cat2 <- function(..., lang = 'r') {
 
 Some random (unordered) content can be found in the [Misc](part3.html) section. 
 Previous versions of this workshop: [2019](https://github.com/USCbiostats/slurmr-workshop/tree/oct2019).
+
+**This workshop was recorded** on February 18th, 2021, and is available [here](https://youtu.be/ChPGJ7ECVGk).
 
 # Materials
 

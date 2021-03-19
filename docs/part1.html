@@ -345,10 +345,10 @@ $(document).ready(function () {
 
 
 
-
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
+      <!-- NOTE: add "navbar-inverse" class for an alternate navbar background -->
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -358,26 +358,14 @@ $(document).ready(function () {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
-  <a href="index.html">Home</a>
-</li>
-<li>
-  <a href="part1.html">Part 1</a>
-</li>
-<li>
-  <a href="part2.html">Part 2</a>
-</li>
-<li>
-  <a href="part3.html">Misc</a>
-</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="part1.html">Part 1</a></li>
+        <li><a href="part2.html">Part 2</a></li>
+        <li><a href="part3.html">Misc</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/USCbiostats/slurmr-workshop">
-    <span class="fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        <li><a href="https://image.usc.edu" target="_blank"><img src="https://raw.githubusercontent.com/USCbiostats/badges/master/tommy-image-badge.svg"></a></li>
+        <li><a href="https://github.com/USCbiostats/slurmr-workshop"><span class="fab fa-github fa-lg"></span></a></li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -424,7 +412,7 @@ Cyberinfrastructure overview (source: <a href="https://carc.usc.edu/user-informa
 </ol>
 <div id="step-1-copy-the-slurm-script-to-hpc" class="section level2">
 <h2>Step 1: Copy the Slurm script to HPC</h2>
-<p>We need to copy the following Slurm script to HPC:</p>
+<p>We need to copy the following Slurm script to HPC (<a href="00-hello-world.slurm" target="_blank">00-hello-world.slurm</a>):</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/sh</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=00-hello-world.out</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load usc r</span>
@@ -458,7 +446,7 @@ Cyberinfrastructure overview (source: <a href="https://carc.usc.edu/user-informa
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> 00-hello-world.slurm</span></code></pre></div>
 <p>And that’s it!</p>
 <p>In the case of interactive sessions, You can start one using the <code>salloc</code> command. For example, if you wanted to run R with 8 cores, using 16 Gigs of memory in total, you would need to do the following:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">salloc</span> -n1 --cpus-per-task=8 --mem-per-task=2G --time=01:00:00</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">salloc</span> -n1 --cpus-per-task=8 --mem-per-cpu=2G --time=01:00:00</span></code></pre></div>
 <p>Once your request is submitted, you will get access to a compute node. Within it, you can load the required modules and start R:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load usc r</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span></span></code></pre></div>
